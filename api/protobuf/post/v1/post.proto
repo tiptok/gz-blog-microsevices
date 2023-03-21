@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package api.protobuf.post.v1;
+
+option go_package =  "github.com/tiptok/gz-blog-microservices/api/protobuf/post/v1";
+
+import "google/protobuf/timestamp.proto";
+
+service PostService {
+  rpc GetPost(GetPostRequest) returns (GetPostResponse) {}
+  rpc CreatePost(CreatePostRequest) returns (CreatePostResponse) {}
+  rpc UpdatePost(UpdatePostRequest) returns (UpdatePostResponse) {}
+  rpc DeletePost(DeletePostRequest) returns (DeletePostResponse) {}
+  rpc DeletePostCompensate(DeletePostRequest) returns (DeletePostResponse) {}
+  rpc ListPosts(ListPostsRequest) returns (ListPostsResponse) {}
+  rpc IncrementCommentsCount(IncrementCommentsCountRequest) returns (IncrementCommentsCountResponse) {}
+  rpc IncrementCommentsCountCompensate(IncrementCommentsCountRequest) returns (IncrementCommentsCountResponse) {}
+  rpc DecrementCommentsCount(DecrementCommentsCountRequest) returns (DecrementCommentsCountResponse) {}
+  rpc DecrementCommentsCountCompensate(DecrementCommentsCountRequest) returns (DecrementCommentsCountResponse) {}
+}
+
+message Post {
+  uint64 id = 1;
+  string uuid = 2;
+  string title = 3;//string title = 3 [(validate.rules).string = {min_len: 1, max_len: 140}];
+  string content = 4;//string content = 4 [(validate.rules).string = {min_len: 1, max_len: 3000}];
+  uint64 user_id = 5;
+  uint32 comments_count = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+}
+
+message GetPostRequest {
+  uint64 id = 1;
+}
+
+message GetPostResponse {
+  Post post = 1;
+}
+
+message CreatePostRequest {
+  Post post = 1;
+}
+
+message CreatePostResponse {
+  Post post = 1;
+}
+
+message UpdatePostRequest {
+  Post post = 1;
+}
+
+message UpdatePostResponse {
+  bool success = 1;
+}
+
+message DeletePostRequest {
+  uint64 id = 1;
+}
+
+message DeletePostResponse {
+  bool success = 1;
+}
+
+message ListPostsRequest {
+  int32 offset = 1;
+  int32 limit = 2;
+}
+
+message ListPostsResponse {
+  repeated Post posts = 1;
+  uint64 count = 2;
+}
+
+message IncrementCommentsCountRequest {
+  uint64 id = 1;
+}
+
+message IncrementCommentsCountResponse {
+  bool success = 1;
+}
+
+message DecrementCommentsCountRequest {
+  uint64 id = 1;
+}
+
+message DecrementCommentsCountResponse {
+  bool success = 1;
+}

@@ -1,0 +1,54 @@
+
+syntax = "proto3";
+
+option go_package ="./pb";
+
+package pb;
+
+message UsersGetReq {
+   int64 Id = 1;
+}
+message UsersGetResp{
+    UsersItem User = 1;
+}
+
+message UsersSaveReq {
+
+}
+message UsersSaveResp{
+
+}
+
+message UsersDeleteReq {
+  int64 Id = 1;
+}
+message UsersDeleteResp{
+
+}
+
+message UsersUpdateReq {
+  int64 Id = 1;
+}
+message UsersUpdateResp{
+
+}
+
+message UsersSearchReq {
+  int64 PageNumber = 1;
+  int64 PageSize = 2;
+}
+message UsersSearchResp{
+  repeated UsersItem List =1;
+  int64  Total =2;
+}
+message UsersItem {
+
+}
+
+service UsersService {
+  rpc UsersGet(UsersGetReq) returns(UsersGetResp);
+  rpc UsersSave(UsersSaveReq) returns(UsersSaveResp);
+  rpc UsersDelete(UsersDeleteReq) returns(UsersDeleteResp);
+  rpc UsersUpdate(UsersUpdateReq) returns(UsersUpdateResp);
+  rpc UsersSearch(UsersSearchReq) returns(UsersSearchResp);
+}

@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package api.protobuf.user.v1;
+
+option go_package = "./api/protobuf/user/v1";
+
+message User {
+  uint64  id = 1;
+  string uuid = 2;
+  string username = 3;
+  string email = 4;
+  string avatar = 5;
+  string password = 6;
+}
+
+service UserService {
+  rpc ListUsersByIDs(ListUsersByIDsRequest) returns (ListUsersByIDsResponse) {}
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
+  rpc GetUserByEmail(GetUserByEmailRequest) returns (GetUserResponse) {}
+  rpc GetUserByUsername(GetUserByUsernameRequest) returns (GetUserResponse) {}
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {}
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
+}
+
+
+message ListUsersByIDsRequest {
+  repeated uint64 ids = 1;
+}
+
+message ListUsersByIDsResponse {
+  repeated User users = 1;
+}
+
+message GetUserRequest {
+  uint64 id = 1;
+}
+
+message GetUserResponse {
+  User user = 1;
+}
+
+message GetUserByEmailRequest {
+  string email = 1;//string email = 1 [(validate.rules).string.email = true];
+  string password = 2;
+}
+
+message GetUserByUsernameRequest {
+  string username = 1 ;//string username = 1 [(validate.rules).string = {min_len: 1, max_len: 30}];
+  string password = 2;
+}
+
+message CreateUserRequest {
+  User user = 1;
+}
+
+message CreateUserResponse {
+  User user = 1;
+}
+
+message UpdateUserRequest {
+  User user = 1;
+}
+
+message UpdateUserResponse {
+  bool success = 1;
+}
+
+message DeleteUserRequest {
+  uint64 id = 1;
+}
+
+message DeleteUserResponse {
+  bool success = 1;
+}

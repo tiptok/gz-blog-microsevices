@@ -1,0 +1,73 @@
+
+syntax = "v1"
+
+info(
+    title: "xx实例"
+    desc: "xx实例"
+    author: "author"
+    email: "email"
+    version: "v1"
+)
+
+@server(
+    prefix: users/v1
+    group: users
+    jwt: JwtAuth
+)
+service users {
+    @handler usersGet
+    post /users/:id (UsersGetReq) returns (UsersGetResp)
+    @handler usersSave
+    post /users (UsersSaveReq) returns (UsersSaveResp)
+    @handler usersDelete
+    delete /users/:id (UsersDeleteReq) returns (UsersDeleteResp)
+    @handler usersUpdate
+    put /users/:id (UsersUpdateReq) returns (UsersUpdateResp)
+    @handler usersSearch
+    post /users/search (UsersSearchReq) returns (UsersSearchResp)
+}
+
+type (
+    UsersGetReq {
+        Id int64
+    }
+    UsersGetResp {
+
+    }
+)
+
+type  (
+    UsersSaveReq struct{
+
+    }
+    UsersSaveResp struct{}
+)
+
+type(
+    UsersDeleteReq struct{
+        Id int64
+    }
+    UsersDeleteResp struct{}
+)
+
+type(
+    UsersUpdateReq struct{
+
+    }
+    UsersUpdateResp{}
+)
+
+type(
+    UsersSearchReq {
+         PageNumber int64
+         PageSize int64
+    }
+    UsersSearchResp{
+        List []UsersItem
+        Total int64
+    }
+)
+
+type  UsersItem {
+
+}
