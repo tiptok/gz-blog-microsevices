@@ -1,6 +1,7 @@
 package models
 
 import (
+	"database/sql"
 	"fmt"
 	"gorm.io/gorm"
 	"time"
@@ -15,7 +16,7 @@ type Users struct {
 	Password  string
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt time.Time
+	DeletedAt sql.NullTime //time.Time `gorm:"type:TIMESTAMP NULL"`
 	Version   int
 }
 
@@ -24,9 +25,9 @@ func (m *Users) TableName() string {
 }
 
 func (m *Users) BeforeCreate(tx *gorm.DB) (err error) {
-	// m.CreateTime = time.Now()
-	// m.UpdateTime = time.Now()
-	// m.DeleteTime = time.Now()
+	m.CreatedAt = time.Now()
+	m.UpdatedAt = time.Now()
+	//m.DeleteTime = time.Now()
 	return
 }
 

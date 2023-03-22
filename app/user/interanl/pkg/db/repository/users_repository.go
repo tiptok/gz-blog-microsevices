@@ -66,7 +66,7 @@ func (repository *UsersRepository) Insert(ctx context.Context, conn transaction.
 	if m, err = repository.DomainModelToModel(dm); err != nil {
 		return nil, err
 	}
-	if tx = tx.Model(m).Save(m); tx.Error != nil {
+	if tx = tx.Model(m).Save(m); tx.Error != nil { //.Omit("deleted_at")
 		return nil, tx.Error
 	}
 	dm.Id = m.Id
