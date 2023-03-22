@@ -38,3 +38,10 @@ protoc -I ./third_party -I ./api/protobuf  api/protobuf/blog/v1/*.proto  \
 ```
 curl -XGET http://127.0.0.1:9999/api.rest.blog.v1/comments
 ```
+
+
+## 生成配置
+生成Dockerfile
+```
+goctl docker --go blog.go --port 8080 --version 1.19 --base ubuntu:latest
+```
