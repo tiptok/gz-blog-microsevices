@@ -1,0 +1,20 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: gz-blog-config
+data:
+  blog.yaml: |-
+    Name: blog.rpc
+    ListenOn: 0.0.0.0:8080
+    Etcd:
+      Hosts:
+        - etcd.etcd.svc.cluster.local:2379
+      Key: blog.rpc
+    Http:
+      Port: '0.0.0.0:9080'
+
+    UserRpc:
+      Etcd:
+        Hosts:
+          - etcd.etcd.svc.cluster.local:2379
+        Key: user.rpc

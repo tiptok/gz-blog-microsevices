@@ -2,12 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gz-blog-user
-  namespace: default
   labels:
     app: gz-blog-user
     version: v1
 spec:
-  replicas: 3
+  replicas: 1
   revisionHistoryLimit: 5
   selector:
     matchLabels:
@@ -29,38 +28,41 @@ spec:
               command: ["sh","-c","sleep 5"]
         ports:
         - containerPort: 8080
-        readinessProbe:
-          tcpSocket:
-            port: 8080
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          tcpSocket:
-            port: 8080
-          initialDelaySeconds: 15
-          periodSeconds: 20
-        resources:
-          requests:
-            cpu: 500m
-            memory: 512Mi
-          limits:
-            cpu: 1000m
-            memory: 1024Mi
+        # readinessProbe:
+        #   tcpSocket:
+        #     port: 8080
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 10
+        # livenessProbe:
+        #   tcpSocket:
+        #     port: 8080
+        #   initialDelaySeconds: 15
+        #   periodSeconds: 20
+        # resources:
+          # requests:
+          #   cpu: 500m
+          #   memory: 512Mi
+          # limits:
+          #   cpu: 1000m
+          #   memory: 1024Mi
         volumeMounts:
         - name: timezone
           mountPath: /etc/localtime
+        - name: config
+          mountPath: /app/etc
       volumes:
         - name: timezone
           hostPath:
             path: /usr/share/zoneinfo/Asia/Shanghai
-
+        - name: config
+          configMap:
+            name: gz-blog-user-config
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
   name: gz-blog-user-svc
-  namespace: default
 spec:
   ports:
     - port: 8080
@@ -70,44 +72,44 @@ spec:
 
 ---
 
-apiVersion: autoscaling/v2beta1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: gz-blog-user-hpa-c
-  namespace: default
-  labels:
-    app: gz-blog-user-hpa-c
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: gz-blog-user
-  minReplicas: 3
-  maxReplicas: 10
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      targetAverageUtilization: 80
+# apiVersion: autoscaling/v2beta1
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: gz-blog-user-hpa-c
+#   namespace: default
+#   labels:
+#     app: gz-blog-user-hpa-c
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: gz-blog-user
+#   minReplicas: 3
+#   maxReplicas: 10
+#   metrics:
+#   - type: Resource
+#     resource:
+#       name: cpu
+#       targetAverageUtilization: 80
 
----
+# ---
 
-apiVersion: autoscaling/v2beta1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: gz-blog-user-hpa-m
-  namespace: default
-  labels:
-    app: gz-blog-user-hpa-m
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: gz-blog-user
-  minReplicas: 3
-  maxReplicas: 10
-  metrics:
-  - type: Resource
-    resource:
-      name: memory
-      targetAverageUtilization: 80
+# apiVersion: autoscaling/v2beta1
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: gz-blog-user-hpa-m
+#   namespace: default
+#   labels:
+#     app: gz-blog-user-hpa-m
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: gz-blog-user
+#   minReplicas: 3
+#   maxReplicas: 10
+#   metrics:
+#   - type: Resource
+#     resource:
+#       name: memory
+#       targetAverageUtilization: 80

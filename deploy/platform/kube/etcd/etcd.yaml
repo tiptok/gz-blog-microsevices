@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: etcd
+  labels:
+    app.kubernetes.io/name: etcd
+    app.kubernetes.io/instance: etcd
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: etcd
+  namespace: etcd
+  annotations:
+    # Create endpoints also if the related pod isn't ready
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+spec:
+  ports:
+    - port: 2379
+      name: client
+    - port: 2380
+      name: peer
+  clusterIP: None
+  selector:
+    component: etcd
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: etcd-client
+  namespace: etcd
+spec:
+  ports:
+    - name: http
+      nodePort: 30453
+      port: 2379
+      targetPort: 2379
+      protocol: TCP
+  type: NodePort
+  selector:
+    component: etcd
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: etcd
+  namespace: etcd
+  labels:
+    component: etcd
+spec:
+  serviceName: etcd
+  replicas: 1
+  selector:
+    matchLabels:
+      component: etcd
+  template:
+    metadata:
+      name: etcd
+      labels:
+        component: etcd
+    spec:
+      volumes:
+        - name: etcd-storage
+          emptyDir: {}
+      containers:
+        - name: etcd
+          image: quay.io/coreos/etcd:latest
+          ports:
+            - containerPort: 2379
+              name: client
+            - containerPort: 2380
+              name: peer
+          volumeMounts:
+            - name: etcd-storage
+              mountPath: /var/run/etcd/default.etcd        

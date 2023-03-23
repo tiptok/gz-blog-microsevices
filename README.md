@@ -45,3 +45,30 @@ curl -XGET http://127.0.0.1:9999/api.rest.blog.v1/comments
 ```
 goctl docker --go blog.go --port 8080 --version 1.19 --base ubuntu:latest
 ```
+
+生成镜像
+```
+docker build -f deploy/build/user/Dockerfile -t tiptok/gz-blog-user:1.0.0 .
+docker build -f deploy/build/blog/Dockerfile -t tiptok/gz-blog:1.0.0 .
+```
+
+## 部署
+
+### 部署redis
+
+```
+k apply -k ./deploy/platform/kube/redis
+kubectl get all -n redis
+k -n redis exec -it redis-66fd8f7cd7-2j8gg -- sh
+# redis-cli
+127.0.0.1:6379> auth Hello1234!!!!
+OK
+127.0.0.1:6379> config get requirepass
+
+访问
+
+在同一个 Kubernetes 集群里面的应用, 可以通过 service 连接 redis
+
+service name: redis-svc.redis
+port: 6379
+```

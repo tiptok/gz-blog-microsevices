@@ -1,0 +1,19 @@
+Name: user.rpc
+ListenOn: 127.0.0.1:8080
+Etcd:
+  Hosts:
+  - etcd-client.etcd:2379
+  Key: user.rpc
+Log:
+  ServiceName: user-rpc
+  Level: info
+
+Redis:
+  Host: service-redis.redis.svc.cluster.local:6379
+  Type: node
+  Pass:
+DB:
+  DataSource: root:password@tcp(mysqldb.default.svc.cluster.local:3306)/blog-micro?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+Cache:
+  - Host: service-redis.redis:6379
+    Pass:
