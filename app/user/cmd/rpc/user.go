@@ -21,9 +21,10 @@ var configFile = flag.String("f", "etc/user.yaml", "the config file")
 
 func main() {
 	flag.Parse()
-	fmt.Println("loading config...")
+	fmt.Println("loading config 1...")
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
+	fmt.Println("loading config 2...")
 	ctx := svc.NewServiceContext(c)
 	svr := server.NewUserServiceServer(ctx)
 	fmt.Println("starting rpc 1...")
