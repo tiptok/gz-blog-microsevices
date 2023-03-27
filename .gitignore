@@ -31,3 +31,4 @@ lastupdate.tmp
 *.log
 
 public/*
+logs/

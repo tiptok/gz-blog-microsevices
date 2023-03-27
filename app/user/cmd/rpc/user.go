@@ -36,6 +36,7 @@ func main() {
 	})
 	if err != nil {
 		log.Fatal(err)
+		return
 	}
 	defer s.Stop()
 	logx.Info(c)
