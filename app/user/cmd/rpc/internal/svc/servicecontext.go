@@ -1,9 +1,6 @@
 package svc
 
 import (
-	"github.com/tiptok/gocomm/pkg/cache"
-	"github.com/tiptok/gocomm/pkg/cache/gzcache"
-	gocommlog "github.com/tiptok/gocomm/pkg/log"
 	"github.com/tiptok/gz-blog-microsevices/app/user/cmd/rpc/internal/config"
 	"github.com/tiptok/gz-blog-microsevices/app/user/interanl/pkg/db/repository"
 	"github.com/tiptok/gz-blog-microsevices/app/user/interanl/pkg/db/transaction"
@@ -38,16 +35,17 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	})
 	if err != nil {
 		log.Fatal(err)
+		return nil
 	}
-	mlCache := cache.NewMultiLevelCacheNew(cache.WithDebugLog(true, func() gocommlog.Log {
-		return gocommlog.DefaultLog
-	}))
-	mlCache.RegisterCache(gzcache.NewClusterCache([]string{c.Redis.Host}, c.Redis.Pass))
+	//mlCache := cache.NewMultiLevelCacheNew(cache.WithDebugLog(true, func() gocommlog.Log {
+	//	return gocommlog.DefaultLog
+	//}))
+	//mlCache.RegisterCache(gzcache.NewClusterCache([]string{c.Redis.Host}, c.Redis.Pass))
 
 	return &ServiceContext{
 		Config:         c,
 		DB:             db,
-		UserRepository: repository.NewUsersRepository(cache.NewCachedRepository(mlCache)),
+		UserRepository: repository.NewUsersRepository(nil), //repository.NewUsersRepository(cache.NewCachedRepository(mlCache)),
 	}
 }
 
