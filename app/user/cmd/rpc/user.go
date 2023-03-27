@@ -21,12 +21,12 @@ var configFile = flag.String("f", "etc/user.yaml", "the config file")
 
 func main() {
 	flag.Parse()
-
+	fmt.Println("loading config...")
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 	ctx := svc.NewServiceContext(c)
 	svr := server.NewUserServiceServer(ctx)
-
+	fmt.Println("starting rpc 1...")
 	s, err := zrpc.NewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
 		v1.RegisterUserServiceServer(grpcServer, svr)
 
@@ -38,6 +38,7 @@ func main() {
 		log.Fatal(err)
 		return
 	}
+	fmt.Println("starting rpc 2...")
 	defer s.Stop()
 	logx.Info(c)
 	logx.Info(fmt.Sprintf("Starting rpc server at %s...\n", c.ListenOn))
