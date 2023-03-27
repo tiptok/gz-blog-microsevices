@@ -1,6 +1,7 @@
 package svc
 
 import (
+	"fmt"
 	"github.com/tiptok/gz-blog-microsevices/app/user/cmd/rpc/internal/config"
 	"github.com/tiptok/gz-blog-microsevices/app/user/interanl/pkg/db/repository"
 	"github.com/tiptok/gz-blog-microsevices/app/user/interanl/pkg/db/transaction"
@@ -29,14 +30,14 @@ func NewServiceContext(c config.Config) *ServiceContext {
 			Colorful:                  false,       // Disable color
 		},
 	)
-
+	fmt.Println("starting db...")
 	db, err := gorm.Open(mysql.Open(c.DB.DataSource), &gorm.Config{
 		Logger: newLogger,
 	})
 	if err != nil {
-		log.Fatal(err)
-		return nil
+		panic(err)
 	}
+	fmt.Println("starting multi level cache...")
 	//mlCache := cache.NewMultiLevelCacheNew(cache.WithDebugLog(true, func() gocommlog.Log {
 	//	return gocommlog.DefaultLog
 	//}))
