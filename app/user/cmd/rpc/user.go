@@ -7,6 +7,7 @@ import (
 	"github.com/tiptok/gz-blog-microsevices/app/user/cmd/rpc/internal/config"
 	"github.com/tiptok/gz-blog-microsevices/app/user/cmd/rpc/internal/server"
 	"github.com/tiptok/gz-blog-microsevices/app/user/cmd/rpc/internal/svc"
+	"github.com/zeromicro/go-zero/core/logx"
 	"log"
 
 	"github.com/zeromicro/go-zero/core/conf"
@@ -37,7 +38,7 @@ func main() {
 		log.Fatal(err)
 	}
 	defer s.Stop()
-
-	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
+	logx.Info(c)
+	logx.Info(fmt.Sprintf("Starting rpc server at %s...\n", c.ListenOn))
 	s.Start()
 }
