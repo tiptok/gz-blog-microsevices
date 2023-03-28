@@ -1,3 +1,19 @@
+# # 使用k8s负载
+# kind: ConfigMap
+# apiVersion: v1
+# metadata:
+#   name: gz-blog-config
+# data:
+#   blog.yaml: |-
+#     Name: blog.rpc
+#     ListenOn: 0.0.0.0:8080
+#     Http:
+#       Port: '0.0.0.0:9080'	
+#     UserRpc:
+#       Target: k8s://app/gz-blog-user-svc:8080
+#       NonBlock: true
+
+# 使用etcd负载
 kind: ConfigMap
 apiVersion: v1
 metadata:
@@ -12,9 +28,9 @@ data:
       Key: blog.rpc
     Http:
       Port: '0.0.0.0:9080'
-
     UserRpc:
       Etcd:
         Hosts:
           - etcd.etcd.svc.cluster.local:2379
         Key: user.rpc
+        NonBlock: true      

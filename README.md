@@ -72,3 +72,32 @@ OK
 service name: redis-svc.redis
 port: 6379
 ```
+
+### 部署mysql
+```
+k apply -k deploy/platform/kube/mysql/mysql.yaml
+```
+
+
+### 部署etcd
+```
+k apply -f deploy/platform/kube/etcd/etcd.yaml
+k apply -f deploy/platform/kube/etcd/etcd-web-ui.yaml 
+查看 etcd v3 web ui
+http://106.52.103.187:30081/
+etcdctl get user.rpc --prefix
+etcdctl  get --prefix ""
+```
+
+### 部署服务
+```
+# 使用k8s负载均衡需要先配置svc account绑定查看endpoints权限
+k apply -f deploy/platform/kube/svc-account -n app
+
+# 配置
+k apply -f deploy/platform/kube/gz-blog-user-config.yaml -n app
+k apply -f deploy/platform/kube/gz-blog-config.yaml -n app
+
+k apply -f deploy/platform/kube/gz-blog-user.yaml -n app
+k apply -f deploy/platform/kube/gz-blog.yaml -n app
+```

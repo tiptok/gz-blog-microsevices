@@ -7,41 +7,55 @@ metadata:
     app.kubernetes.io/instance: etcd
 
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: etcd
-  namespace: etcd
-  annotations:
-    # Create endpoints also if the related pod isn't ready
-    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
-spec:
-  ports:
-    - port: 2379
-      name: client
-    - port: 2380
-      name: peer
-  clusterIP: None
-  selector:
-    component: etcd
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: etcd
+#   namespace: etcd
+#   annotations:
+#     # Create endpoints also if the related pod isn't ready
+#     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+# spec:
+#   ports:
+#     - port: 2379
+#       name: client
+#     - port: 2380
+#       name: peer
+#   clusterIP: None
+#   selector:
+#     component: etcd
+
+---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: etcd-client
+#   namespace: etcd
+# spec:
+#   ports:
+#     - name: http
+#       nodePort: 30453
+#       port: 2379
+#       targetPort: 2379
+#       protocol: TCP
+#   type: NodePort
+#   selector:
+#     component: etcd
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: etcd-client
+  name: etcd
   namespace: etcd
 spec:
   ports:
     - name: http
-      nodePort: 30453
       port: 2379
       targetPort: 2379
       protocol: TCP
-  type: NodePort
   selector:
     component: etcd
-
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -67,7 +81,7 @@ spec:
           emptyDir: {}
       containers:
         - name: etcd
-          image: quay.io/coreos/etcd:latest
+          image: quay.io/coreos/etcd:v3.4.16
           ports:
             - containerPort: 2379
               name: client
@@ -76,3 +90,26 @@ spec:
           volumeMounts:
             - name: etcd-storage
               mountPath: /var/run/etcd/default.etcd        
+          env:
+            - name: CLUSTER_SIZE
+              value: "1"
+            - name: SET_NAME
+              value: "etcd"
+          command:
+            - /bin/sh
+            - -ecx
+            - |
+              IP=$(hostname -i)
+              PEERS=""
+              for i in $(seq 0 $((${CLUSTER_SIZE} - 1))); do
+                  PEERS="${PEERS}${PEERS:+,}${SET_NAME}-${i}=http://${SET_NAME}-${i}.${SET_NAME}:2380"
+              done
+              exec etcd --name ${HOSTNAME} \
+                --listen-peer-urls http://${IP}:2380 \
+                --listen-client-urls http://${IP}:2379,http://127.0.0.1:2379 \
+                --advertise-client-urls http://${HOSTNAME}.${SET_NAME}:2379 \
+                --initial-advertise-peer-urls http://${HOSTNAME}.${SET_NAME}:2380 \
+                --initial-cluster-token etcd-cluster-1 \
+                --initial-cluster ${PEERS} \
+                --initial-cluster-state new \
+                --data-dir /var/run/etcd/default.etc

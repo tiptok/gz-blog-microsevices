@@ -1,3 +1,27 @@
+# kind: ConfigMap
+# apiVersion: v1
+# metadata:
+#   name: gz-blog-user-config
+# data:
+#   user.yaml: |-
+    
+#     Name: user.rpc
+#     ListenOn: 0.0.0.0:8080
+#     Log:
+#       ServiceName: user-rpc
+#       Level: info
+
+#     Redis:
+#       Host: service-redis.redis.svc.cluster.local:6379
+#       Type: node
+#       Pass:
+#     DB:
+#       DataSource: root:password@tcp(mysql-svc.app.svc.cluster.local:3306)/blog?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+#     Cache:
+#       - Host: service-redis.redis.svc.cluster.local:6379
+#         Pass:
+        
+# 使用etcd负载
 kind: ConfigMap
 apiVersion: v1
 metadata:
@@ -6,7 +30,7 @@ data:
   user.yaml: |-
     
     Name: user.rpc
-    ListenOn: 127.0.0.1:8080
+    ListenOn: 0.0.0.0:8080
     Etcd:
       Hosts:
         - etcd.etcd.svc.cluster.local:2379
@@ -20,7 +44,7 @@ data:
       Type: node
       Pass:
     DB:
-      DataSource: root:password@tcp(mysqldb.default.svc.cluster.local:3306)/blog?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+      DataSource: root:password@tcp(mysql-svc.app.svc.cluster.local:3306)/blog?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
     Cache:
-      - Host: service-redis.redis:6379
-        Pass:
+      - Host: service-redis.redis.svc.cluster.local:6379
+        Pass:      

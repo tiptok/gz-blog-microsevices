@@ -15,6 +15,7 @@ spec:
       labels:
         app: gz-blog
     spec:
+      serviceAccountName: find-endpoints
       containers:
       - name: gz-blog
         image: docker.io/tiptok/gz-blog:1.0.0
@@ -25,16 +26,16 @@ spec:
               command: ["sh","-c","sleep 5"]
         ports:
         - containerPort: 8080
-        # readinessProbe:
-        #   tcpSocket:
-        #     port: 8080
-        #   initialDelaySeconds: 5
-        #   periodSeconds: 10
-        # livenessProbe:
-        #   tcpSocket:
-        #     port: 8080
-        #   initialDelaySeconds: 15
-        #   periodSeconds: 20
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
         # resources:
         #   requests:
         #     cpu: 500m
@@ -62,7 +63,16 @@ metadata:
   name: gz-blog-svc
 spec:
   ports:
-    - port: 8080
+    - name: rpc
+      protocol: TCP
+      targetPort: 8080
+      port: 8080
+    - name: http
+      protocol: TCP
+      targetPort: 9080
+      port: 9080 
+      nodePort: 31980
+  type: NodePort     
   selector:
     app: gz-blog
 

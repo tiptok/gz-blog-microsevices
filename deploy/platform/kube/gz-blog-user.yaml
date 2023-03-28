@@ -1,3 +1,11 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app
+  labels:
+    app.kubernetes.io/name: app
+    app.kubernetes.io/instance: app
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,6 +26,7 @@ spec:
         app: gz-blog-user
         version: v1
     spec:
+      serviceAccountName: find-endpoints
       containers:
       - name: gz-blog-user
         image: docker.io/tiptok/gz-blog-user:1.0.0
@@ -28,16 +37,16 @@ spec:
               command: ["sh","-c","sleep 5"]
         ports:
         - containerPort: 8080
-        # readinessProbe:
-        #   tcpSocket:
-        #     port: 8080
-        #   initialDelaySeconds: 5
-        #   periodSeconds: 10
-        # livenessProbe:
-        #   tcpSocket:
-        #     port: 8080
-        #   initialDelaySeconds: 15
-        #   periodSeconds: 20
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
         # resources:
           # requests:
           #   cpu: 500m
@@ -65,8 +74,10 @@ metadata:
   name: gz-blog-user-svc
 spec:
   ports:
-    - port: 8080
-      name: http
+    - name: rpc
+      protocol: TCP
+      targetPort: 8080
+      port: 8080
   selector:
     app: gz-blog-user
 
