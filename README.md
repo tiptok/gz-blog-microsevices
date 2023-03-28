@@ -32,6 +32,12 @@ protoc -I ./third_party -I ./api/protobuf  api/protobuf/blog/v1/*.proto  \
     --grpc-gateway_out=.  
 ```
 
+```
+goctl rpc protoc -I ./third_party -I ./api/protobuf  api/protobuf/auth/v1/*.proto  \
+    --go_out=. \
+    --go-grpc_out=. \
+    --zrpc_out=app/auth/cmd/rpc 
+```
 
 ## test
 

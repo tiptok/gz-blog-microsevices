@@ -7,9 +7,5 @@ import (
 
 type Config struct {
 	zrpc.RpcServerConf
-	Http struct {
-		Port string
-	}
-	//UserRpc zrpc.RpcClientConf
 	config.Config
 }
