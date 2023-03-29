@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package api.protobuf.blog.v1;
 
-option go_package = "./api/protobuf/blog/v1";
+option go_package = "../v1";
 
 import "validate/validate.proto";
 import "google/protobuf/timestamp.proto";

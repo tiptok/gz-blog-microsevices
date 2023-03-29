@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package api.protobuf.user.v1;
 
-option go_package = "./api/protobuf/user/v1";
+option go_package = "../v1";
 
 message User {
   uint64  id = 1;
