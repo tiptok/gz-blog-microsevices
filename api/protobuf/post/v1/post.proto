@@ -2,8 +2,9 @@ syntax = "proto3";
 
 package api.protobuf.post.v1;
 
-option go_package =  "github.com/tiptok/gz-blog-microservices/api/protobuf/post/v1";
+option go_package =  "../v1";
 
+import "validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 
 service PostService {
@@ -22,8 +23,8 @@ service PostService {
 message Post {
   uint64 id = 1;
   string uuid = 2;
-  string title = 3;//string title = 3 [(validate.rules).string = {min_len: 1, max_len: 140}];
-  string content = 4;//string content = 4 [(validate.rules).string = {min_len: 1, max_len: 3000}];
+  string title = 3 [(validate.rules).string = {min_len: 1, max_len: 140}];//string title = 3;
+  string content = 4 [(validate.rules).string = {min_len: 1, max_len: 3000}];//string content = 4;
   uint64 user_id = 5;
   uint32 comments_count = 6;
   google.protobuf.Timestamp created_at = 7;

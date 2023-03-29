@@ -37,6 +37,20 @@ goctl rpc protoc -I ./third_party -I ./api/protobuf  api/protobuf/auth/v1/*.prot
     --go_out=. \
     --go-grpc_out=. \
     --zrpc_out=app/auth/cmd/rpc 
+    
+
+goctl rpc protoc -I ./third_party -I ./api/protobuf  api/protobuf/postv1/*.proto  \
+    --go_out=./api/protobuf/post \
+    --go-grpc_out=./api/protobuf/post \
+    --zrpc_out=app/post/cmd/rpc \
+    -v
+        
+protoc -I ./third_party -I ./api/protobuf  api/protobuf/post/v1/*.proto  \
+    --go_out=. \
+    --go-grpc_out=. \
+    --validate_out="lang=go,paths=source_relative:." \
+    --grpc-gateway_out=. 
+           
 ```
 
 ## test
