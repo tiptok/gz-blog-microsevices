@@ -33,5 +33,7 @@ func (l *DeleteUserLogic) DeleteUser(in *v1.DeleteUserRequest) (*v1.DeleteUserRe
 	if _, err := l.svcCtx.UserRepository.Delete(l.ctx, conn, user); err != nil {
 		return nil, err
 	}
-	return &v1.DeleteUserResponse{}, nil
+	return &v1.DeleteUserResponse{
+		Success: true,
+	}, nil
 }

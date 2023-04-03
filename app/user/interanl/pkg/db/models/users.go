@@ -16,7 +16,7 @@ type Users struct {
 	Password  string
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt sql.NullTime //time.Time `gorm:"type:TIMESTAMP NULL"`
+	DeletedAt sql.NullTime `gorm:"softDelete"`
 	Version   int
 }
 

@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"github.com/tiptok/gz-blog-microsevices/app/post/cmd/rpc/postservice"
 
 	"github.com/tiptok/gz-blog-microsevices/api/protobuf/post/v1"
 	"github.com/tiptok/gz-blog-microsevices/app/post/cmd/rpc/internal/svc"
@@ -24,7 +25,13 @@ func NewGetPostLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetPostLo
 }
 
 func (l *GetPostLogic) GetPost(in *v1.GetPostRequest) (*v1.GetPostResponse, error) {
-	// todo: add your logic here and delete this line
-
-	return &v1.GetPostResponse{}, nil
+	conn := l.svcCtx.DefaultDBConn()
+	id := in.GetId()
+	post, err := l.svcCtx.PostsRepository.FindOne(l.ctx, conn, int64(id))
+	if err != nil {
+		return nil, err
+	}
+	return &v1.GetPostResponse{
+		Post: postservice.PostEntityToProtobuf(post),
+	}, nil
 }

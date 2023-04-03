@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/tiptok/gz-blog-microsevices/app/auth/cmd/rpc/authservice"
 	"github.com/tiptok/gz-blog-microsevices/app/blog/cmd/rpc/internal/config"
+	"github.com/tiptok/gz-blog-microsevices/app/post/cmd/rpc/postservice"
 	"github.com/tiptok/gz-blog-microsevices/app/user/cmd/rpc/userservice"
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
@@ -15,6 +16,7 @@ type ServiceContext struct {
 	Config  config.Config
 	UserRpc userservice.UserService
 	AuthRpc authservice.AuthService
+	PostRpc postservice.PostService
 }
 
 func timeInterceptor(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
@@ -33,5 +35,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Config:  c,
 		UserRpc: userservice.NewUserService(zrpc.MustNewClient(c.UserRpc, zrpc.WithUnaryClientInterceptor(timeInterceptor))),
 		AuthRpc: authservice.NewAuthService(zrpc.MustNewClient(c.AuthRpc, zrpc.WithUnaryClientInterceptor(timeInterceptor))),
+		PostRpc: postservice.NewPostService(zrpc.MustNewClient(c.PostRpc, zrpc.WithUnaryClientInterceptor(timeInterceptor))),
 	}
 }

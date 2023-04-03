@@ -7,6 +7,10 @@ Etcd:
 Http:
   Port: '0.0.0.0:9080'
 
+JWT:
+  Secret: dsjoilkejrnlk
+  Expires: 36000s
+
 UserRpc:
   Etcd:
     Hosts:
@@ -18,4 +22,10 @@ AuthRpc:
     Hosts:
       - 127.0.0.1:2379
     Key: auth.rpc
+    NonBlock: true
+PostRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: post.rpc
     NonBlock: true

@@ -24,7 +24,16 @@ func NewDeletePostLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 }
 
 func (l *DeletePostLogic) DeletePost(in *v1.DeletePostRequest) (*v1.DeletePostResponse, error) {
-	// todo: add your logic here and delete this line
-
-	return &v1.DeletePostResponse{}, nil
+	conn := l.svcCtx.DefaultDBConn()
+	id := in.GetId()
+	post, err := l.svcCtx.PostsRepository.FindOne(l.ctx, conn, int64(id))
+	if err != nil {
+		return nil, err
+	}
+	if _, err := l.svcCtx.PostsRepository.Delete(l.ctx, conn, post); err != nil {
+		return nil, err
+	}
+	return &v1.DeletePostResponse{
+		Success: true,
+	}, nil
 }

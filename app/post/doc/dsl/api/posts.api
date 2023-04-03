@@ -1,0 +1,73 @@
+
+syntax = "v1"
+
+info(
+    title: "xx实例"
+    desc: "xx实例"
+    author: "author"
+    email: "email"
+    version: "v1"
+)
+
+@server(
+    prefix: posts/v1
+    group: posts
+    jwt: JwtAuth
+)
+service posts {
+    @handler postsGet
+    post /posts/:id (PostsGetReq) returns (PostsGetResp)
+    @handler postsSave
+    post /posts (PostsSaveReq) returns (PostsSaveResp)
+    @handler postsDelete
+    delete /posts/:id (PostsDeleteReq) returns (PostsDeleteResp)
+    @handler postsUpdate
+    put /posts/:id (PostsUpdateReq) returns (PostsUpdateResp)
+    @handler postsSearch
+    post /posts/search (PostsSearchReq) returns (PostsSearchResp)
+}
+
+type (
+    PostsGetReq {
+        Id int64
+    }
+    PostsGetResp {
+
+    }
+)
+
+type  (
+    PostsSaveReq struct{
+
+    }
+    PostsSaveResp struct{}
+)
+
+type(
+    PostsDeleteReq struct{
+        Id int64
+    }
+    PostsDeleteResp struct{}
+)
+
+type(
+    PostsUpdateReq struct{
+
+    }
+    PostsUpdateResp{}
+)
+
+type(
+    PostsSearchReq {
+         PageNumber int64
+         PageSize int64
+    }
+    PostsSearchResp{
+        List []PostsItem
+        Total int64
+    }
+)
+
+type  PostsItem {
+
+}

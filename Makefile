@@ -66,9 +66,21 @@ migrate-down:
 .PHONY: migrate-refresh
 migrate-refresh: migrate-down migrate-up
 
+.PHONY: auth-server
+auth-server:
+	go run ./app/auth/cmd/rpc/auth.go -f ./app/auth/cmd/rpc/etc/auth.yaml
+
+.PHONY: user-server
+user-server:
+	go run ./app/user/cmd/rpc/user.go -f ./app/user/cmd/rpc/etc/user.yaml
+
+.PHONY: post-server
+post-server:
+	go run ./app/post/cmd/rpc/post.go -f ./app/post/cmd/rpc/etc/post.yaml
+
 .PHONY: blog-server
 blog-server:
-	go run ./app/blog/cmd/rpc
+	go run ./app/blog/cmd/rpc/blog.go -f ./app/blog/cmd/rpc/etc/blog.yaml
 
 .PHONY: docker-build
 docker-build:

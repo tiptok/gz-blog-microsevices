@@ -9,6 +9,8 @@ import (
 	"github.com/tiptok/gz-blog-microsevices/app/blog/cmd/rpc/internal/config"
 	"github.com/tiptok/gz-blog-microsevices/app/blog/cmd/rpc/internal/server"
 	"github.com/tiptok/gz-blog-microsevices/app/blog/cmd/rpc/internal/svc"
+	"github.com/tiptok/gz-blog-microsevices/pkg/interceptor"
+	"github.com/tiptok/gz-blog-microsevices/pkg/jwt"
 	"log"
 	"net/http"
 
@@ -36,6 +38,7 @@ func main() {
 			reflection.Register(grpcServer)
 		}
 	})
+	s.AddUnaryInterceptors(interceptor.NewAuthInterceptor(jwt.NewManager(nil, &c.Config), server.AuthMethods).Unary())
 	defer s.Stop()
 
 	go func() {
@@ -47,7 +50,7 @@ func main() {
 		}
 		httpServer := &http.Server{
 			Addr:    c.Http.Port,
-			Handler: httpMux,
+			Handler: interceptor.WithAuthInterceptor(httpMux, jwt.NewManager(nil, &c.Config), server.AuthHttpMethods),
 		}
 		fmt.Printf("Starting api server at %s...\n", c.Http.Port)
 		if err := httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
