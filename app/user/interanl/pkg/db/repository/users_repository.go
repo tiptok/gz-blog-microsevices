@@ -70,7 +70,7 @@ func (repository *UsersRepository) Insert(ctx context.Context, conn transaction.
 		return nil, tx.Error
 	}
 	dm.Id = m.Id
-	return dm, nil
+	return repository.ModelToDomainModel(m)
 
 }
 

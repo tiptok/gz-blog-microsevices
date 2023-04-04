@@ -113,13 +113,14 @@ func WithAuthInterceptor(handler http.Handler, jwtManager *jwt.Manager, authMeth
 	i := NewAuthInterceptor(jwtManager, authMethods)
 	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 		logx.Info("--> unary interceptor: ", request.URL.Path)
-		claims, err := i.Authorize(request.Context(), request.URL.Path)
+		md := metadata.MD(request.Header)
+		//request.WithContext()
+		claims, err := i.Authorize(metadata.NewIncomingContext(request.Context(), md), request.URL.Path)
 		if err != nil {
-			//return nil, err
 			return
 		}
 		if claims != nil {
-			request.WithContext(context.WithValue(request.Context(), ContextKeyID, claims.ID))
+			request = request.WithContext(context.WithValue(request.Context(), ContextKeyID, claims.ID))
 		}
 		handler.ServeHTTP(writer, request)
 	})

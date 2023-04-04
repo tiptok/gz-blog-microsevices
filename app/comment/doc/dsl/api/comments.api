@@ -1,0 +1,73 @@
+
+syntax = "v1"
+
+info(
+    title: "xx实例"
+    desc: "xx实例"
+    author: "author"
+    email: "email"
+    version: "v1"
+)
+
+@server(
+    prefix: comments/v1
+    group: comments
+    jwt: JwtAuth
+)
+service comments {
+    @handler commentsGet
+    post /comments/:id (CommentsGetReq) returns (CommentsGetResp)
+    @handler commentsSave
+    post /comments (CommentsSaveReq) returns (CommentsSaveResp)
+    @handler commentsDelete
+    delete /comments/:id (CommentsDeleteReq) returns (CommentsDeleteResp)
+    @handler commentsUpdate
+    put /comments/:id (CommentsUpdateReq) returns (CommentsUpdateResp)
+    @handler commentsSearch
+    post /comments/search (CommentsSearchReq) returns (CommentsSearchResp)
+}
+
+type (
+    CommentsGetReq {
+        Id int64
+    }
+    CommentsGetResp {
+
+    }
+)
+
+type  (
+    CommentsSaveReq struct{
+
+    }
+    CommentsSaveResp struct{}
+)
+
+type(
+    CommentsDeleteReq struct{
+        Id int64
+    }
+    CommentsDeleteResp struct{}
+)
+
+type(
+    CommentsUpdateReq struct{
+
+    }
+    CommentsUpdateResp{}
+)
+
+type(
+    CommentsSearchReq {
+         PageNumber int64
+         PageSize int64
+    }
+    CommentsSearchResp{
+        List []CommentsItem
+        Total int64
+    }
+)
+
+type  CommentsItem {
+
+}

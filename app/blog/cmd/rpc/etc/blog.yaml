@@ -29,3 +29,10 @@ PostRpc:
       - 127.0.0.1:2379
     Key: post.rpc
     NonBlock: true
+
+CommentRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: comment.rpc
+    NonBlock: true

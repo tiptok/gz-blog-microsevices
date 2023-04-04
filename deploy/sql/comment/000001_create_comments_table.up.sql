@@ -8,6 +8,7 @@ create table comments
     created_at timestamp       not null default current_timestamp,
     updated_at timestamp       not null default current_timestamp on update current_timestamp,
     deleted_at timestamp       null,
+    version    bigint       default 0,
     index (user_id),
     index (post_id)
 );

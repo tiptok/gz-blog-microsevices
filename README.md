@@ -109,6 +109,18 @@ etcdctl get user.rpc --prefix
 etcdctl  get --prefix ""
 ```
 
+### 部署dtm
+
+使用etcd进行负载均衡
+```conf.yml
+MicroService:
+  Driver: 'dtm-driver-gozero' # 配置dtm使用go-zero的微服务协议
+  Target: 'etcd://localhost:2379/dtmservice' # 把dtm注册到etcd的这个地址
+  EndPoint: 'localhost:36790' # dtm的本地地址
+```
+
+- ./dtm.exe -c conf.yml
+
 ### 部署服务
 ```
 # 使用k8s负载均衡需要先配置svc account绑定查看endpoints权限

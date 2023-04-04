@@ -21,15 +21,15 @@ var AuthMethods = map[string]bool{
 var httpPrefix = "/api.rest.blog.v1" + "/"
 
 var AuthHttpMethods = map[string]bool{
-	prefix + "sign-up":              false, // 不需要验证
-	prefix + "sign-in":              false,
-	prefix + "posts":                true, // 需要验证
-	prefix + "posts/{id}":           true,
-	prefix + "GetPost":              false,
-	prefix + "ListPosts":            false,
-	prefix + "DeletePost":           true,
-	prefix + "CreateComment":        true,
-	prefix + "UpdateComment":        true,
-	prefix + "DeleteComment":        true,
-	prefix + "ListCommentsByPostID": false,
+	httpPrefix + "sign-up":              false, // 不需要验证
+	httpPrefix + "sign-in":              false,
+	httpPrefix + "posts":                true, // 需要验证
+	httpPrefix + "posts/{id}":           true,
+	httpPrefix + "GetPost":              false,
+	httpPrefix + "ListPosts":            false,
+	httpPrefix + "DeletePost":           true,
+	httpPrefix + "CreateComment":        true,
+	httpPrefix + "UpdateComment":        true,
+	httpPrefix + "DeleteComment":        true,
+	httpPrefix + "ListCommentsByPostID": false,
 }

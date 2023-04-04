@@ -5,20 +5,20 @@ import (
 	"github.com/jinzhu/copier"
 	"github.com/pkg/errors"
 	"github.com/tiptok/gocomm/pkg/cache"
-	"github.com/tiptok/gz-blog-microsevices/app/post/interanl/pkg/db/models"
-	"github.com/tiptok/gz-blog-microsevices/app/post/interanl/pkg/db/transaction"
-	"github.com/tiptok/gz-blog-microsevices/app/post/interanl/pkg/domain"
+	"github.com/tiptok/gz-blog-microsevices/app/comment/interanl/pkg/db/models"
+	"github.com/tiptok/gz-blog-microsevices/app/comment/interanl/pkg/db/transaction"
+	"github.com/tiptok/gz-blog-microsevices/app/comment/interanl/pkg/domain"
 	"gorm.io/gorm"
 )
 
-type PostsRepository struct {
+type CommentsRepository struct {
 	*cache.CachedRepository
 }
 
-func (repository *PostsRepository) Insert(ctx context.Context, conn transaction.Conn, dm *domain.Posts) (*domain.Posts, error) {
+func (repository *CommentsRepository) Insert(ctx context.Context, conn transaction.Conn, dm *domain.Comments) (*domain.Comments, error) {
 	var (
 		err error
-		m   = &models.Posts{}
+		m   = &models.Comments{}
 		tx  = conn.DB()
 	)
 	if m, err = repository.DomainModelToModel(dm); err != nil {
@@ -32,10 +32,10 @@ func (repository *PostsRepository) Insert(ctx context.Context, conn transaction.
 
 }
 
-func (repository *PostsRepository) Update(ctx context.Context, conn transaction.Conn, dm *domain.Posts) (*domain.Posts, error) {
+func (repository *CommentsRepository) Update(ctx context.Context, conn transaction.Conn, dm *domain.Comments) (*domain.Comments, error) {
 	var (
 		err error
-		m   *models.Posts
+		m   *models.Comments
 		tx  = conn.DB()
 	)
 	if m, err = repository.DomainModelToModel(dm); err != nil {
@@ -51,29 +51,10 @@ func (repository *PostsRepository) Update(ctx context.Context, conn transaction.
 	return dm, nil
 }
 
-func (repository *PostsRepository) UpdateUnscoped(ctx context.Context, conn transaction.Conn, dm *domain.Posts) (*domain.Posts, error) {
+func (repository *CommentsRepository) UpdateWithVersion(ctx context.Context, transaction transaction.Conn, dm *domain.Comments) (*domain.Comments, error) {
 	var (
 		err error
-		m   *models.Posts
-		tx  = conn.DB()
-	)
-	if m, err = repository.DomainModelToModel(dm); err != nil {
-		return nil, err
-	}
-	queryFunc := func() (interface{}, error) {
-		tx = tx.Unscoped().Model(m).Updates(m)
-		return nil, tx.Error
-	}
-	if _, err = repository.Query(queryFunc, m.CacheKeyFunc()); err != nil {
-		return nil, err
-	}
-	return dm, nil
-}
-
-func (repository *PostsRepository) UpdateWithVersion(ctx context.Context, transaction transaction.Conn, dm *domain.Posts) (*domain.Posts, error) {
-	var (
-		err error
-		m   *models.Posts
+		m   *models.Comments
 		tx  = transaction.DB()
 	)
 	if m, err = repository.DomainModelToModel(dm); err != nil {
@@ -91,10 +72,10 @@ func (repository *PostsRepository) UpdateWithVersion(ctx context.Context, transa
 	return dm, nil
 }
 
-func (repository *PostsRepository) Delete(ctx context.Context, conn transaction.Conn, dm *domain.Posts) (*domain.Posts, error) {
+func (repository *CommentsRepository) Delete(ctx context.Context, conn transaction.Conn, dm *domain.Comments) (*domain.Comments, error) {
 	var (
 		tx = conn.DB()
-		m  = &models.Posts{Id: dm.Identify().(int64)}
+		m  = &models.Comments{Id: dm.Identify().(int64)}
 	)
 	queryFunc := func() (interface{}, error) {
 		tx = tx.Where("id = ?", m.Id).Delete(m)
@@ -106,11 +87,11 @@ func (repository *PostsRepository) Delete(ctx context.Context, conn transaction.
 	return dm, nil
 }
 
-func (repository *PostsRepository) FindOne(ctx context.Context, conn transaction.Conn, id int64) (*domain.Posts, error) {
+func (repository *CommentsRepository) FindOne(ctx context.Context, conn transaction.Conn, id int64) (*domain.Comments, error) {
 	var (
 		err error
 		tx  = conn.DB()
-		m   = new(models.Posts)
+		m   = new(models.Comments)
 	)
 	queryFunc := func() (interface{}, error) {
 		tx = tx.Model(m).Where("id = ?", id).First(m)
@@ -119,7 +100,7 @@ func (repository *PostsRepository) FindOne(ctx context.Context, conn transaction
 		}
 		return m, tx.Error
 	}
-	cacheModel := new(models.Posts)
+	cacheModel := new(models.Comments)
 	cacheModel.Id = id
 	if err = repository.QueryCache(cacheModel.CacheKeyFunc, m, queryFunc); err != nil {
 		return nil, err
@@ -127,24 +108,30 @@ func (repository *PostsRepository) FindOne(ctx context.Context, conn transaction
 	return repository.ModelToDomainModel(m)
 }
 
-func (repository *PostsRepository) FindOneUnscoped(ctx context.Context, conn transaction.Conn, id int64) (*domain.Posts, error) {
+func (repository *CommentsRepository) FindOneByUuid(ctx context.Context, conn transaction.Conn, uuid string) (*domain.Comments, error) {
 	var (
 		err error
 		tx  = conn.DB()
-		m   = new(models.Posts)
+		m   = new(models.Comments)
 	)
-	err = tx.Unscoped().First(m, id).Error
-	if err != nil {
+	queryFunc := func() (interface{}, error) {
+		tx = tx.Model(m).Where("uuid = ?", uuid).First(m)
+		if errors.Is(tx.Error, gorm.ErrRecordNotFound) {
+			return nil, domain.ErrNotFound
+		}
+		return m, tx.Error
+	}
+	if _, err = repository.Query(queryFunc); err != nil {
 		return nil, err
 	}
 	return repository.ModelToDomainModel(m)
 }
 
-func (repository *PostsRepository) Find(ctx context.Context, conn transaction.Conn, queryOptions map[string]interface{}) (int64, []*domain.Posts, error) {
+func (repository *CommentsRepository) Find(ctx context.Context, conn transaction.Conn, queryOptions map[string]interface{}) (int64, []*domain.Comments, error) {
 	var (
 		tx    = conn.DB()
-		ms    []*models.Posts
-		dms   = make([]*domain.Posts, 0)
+		ms    []*models.Comments
+		dms   = make([]*domain.Comments, 0)
 		total int64
 	)
 	queryFunc := func() (interface{}, error) {
@@ -169,18 +156,18 @@ func (repository *PostsRepository) Find(ctx context.Context, conn transaction.Co
 	return total, dms, nil
 }
 
-func (repository *PostsRepository) ModelToDomainModel(from *models.Posts) (*domain.Posts, error) {
-	to := &domain.Posts{}
+func (repository *CommentsRepository) ModelToDomainModel(from *models.Comments) (*domain.Comments, error) {
+	to := &domain.Comments{}
 	err := copier.Copy(to, from)
 	return to, err
 }
 
-func (repository *PostsRepository) DomainModelToModel(from *domain.Posts) (*models.Posts, error) {
-	to := &models.Posts{}
+func (repository *CommentsRepository) DomainModelToModel(from *domain.Comments) (*models.Comments, error) {
+	to := &models.Comments{}
 	err := copier.Copy(to, from)
 	return to, err
 }
 
-func NewPostsRepository(cache *cache.CachedRepository) domain.PostsRepository {
-	return &PostsRepository{CachedRepository: cache}
+func NewCommentsRepository(cache *cache.CachedRepository) domain.CommentsRepository {
+	return &CommentsRepository{CachedRepository: cache}
 }

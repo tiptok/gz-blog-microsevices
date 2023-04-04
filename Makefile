@@ -41,6 +41,10 @@ zrpc:
 rpc-gen: protoc zrpc
 
 
+.PHONY: model-gen
+model-gen:
+	goctl model mysql ddl -s deploy/sql/comment/000001_create_comments_table.up.sql -d app/comment
+
 .PHONY: wire
 wire:
 	wire ./...
@@ -77,6 +81,10 @@ user-server:
 .PHONY: post-server
 post-server:
 	go run ./app/post/cmd/rpc/post.go -f ./app/post/cmd/rpc/etc/post.yaml
+
+.PHONY: comment-server
+comment-server:
+	go run ./app/comment/cmd/rpc/comment.go -f ./app/comment/cmd/rpc/etc/comment.yaml
 
 .PHONY: blog-server
 blog-server:

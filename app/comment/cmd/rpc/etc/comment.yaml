@@ -1,6 +1,16 @@
 Name: comment.rpc
-ListenOn: 127.0.0.1:8080
+ListenOn: 127.0.0.1:8093
 Etcd:
   Hosts:
   - 127.0.0.1:2379
   Key: comment.rpc
+
+Redis:
+  Host: 127.0.0.1:6379
+  Type: node
+  Pass:
+DB:
+  DataSource: root:123456@tcp(localhost:3306)/blog-micro?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+Cache:
+  - Host: 127.0.0.1:6379
+    Pass:

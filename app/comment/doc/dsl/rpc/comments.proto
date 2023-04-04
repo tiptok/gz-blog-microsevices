@@ -1,0 +1,54 @@
+
+syntax = "proto3";
+
+option go_package ="./pb";
+
+package pb;
+
+message CommentsGetReq {
+   int64 Id = 1;
+}
+message CommentsGetResp{
+    CommentsItem User = 1;
+}
+
+message CommentsSaveReq {
+
+}
+message CommentsSaveResp{
+
+}
+
+message CommentsDeleteReq {
+  int64 Id = 1;
+}
+message CommentsDeleteResp{
+
+}
+
+message CommentsUpdateReq {
+  int64 Id = 1;
+}
+message CommentsUpdateResp{
+
+}
+
+message CommentsSearchReq {
+  int64 PageNumber = 1;
+  int64 PageSize = 2;
+}
+message CommentsSearchResp{
+  repeated CommentsItem List =1;
+  int64  Total =2;
+}
+message CommentsItem {
+
+}
+
+service CommentsService {
+  rpc CommentsGet(CommentsGetReq) returns(CommentsGetResp);
+  rpc CommentsSave(CommentsSaveReq) returns(CommentsSaveResp);
+  rpc CommentsDelete(CommentsDeleteReq) returns(CommentsDeleteResp);
+  rpc CommentsUpdate(CommentsUpdateReq) returns(CommentsUpdateResp);
+  rpc CommentsSearch(CommentsSearchReq) returns(CommentsSearchResp);
+}
