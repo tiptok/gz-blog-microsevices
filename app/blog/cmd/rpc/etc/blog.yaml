@@ -36,3 +36,9 @@ CommentRpc:
       - 127.0.0.1:2379
     Key: comment.rpc
     NonBlock: true
+
+
+DTM:
+  Server:
+    GRPC:
+      Port: etcd://localhost:2379/dtmservice

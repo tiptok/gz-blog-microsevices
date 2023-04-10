@@ -113,6 +113,9 @@ func PaginationAndCount(ctx context.Context, tx *gorm.DB, params map[string]inte
 	if v, ok := params["limit"]; ok {
 		tx.Limit(v.(int))
 	}
+	//if v,ok:=params["unscoped"];ok && v.(bool){
+	//	tx.Unscoped()
+	//}
 	if tx = tx.Find(v); tx.Error != nil {
 		return 0, tx
 	}

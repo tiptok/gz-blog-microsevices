@@ -51,6 +51,25 @@ func (repository *CommentsRepository) Update(ctx context.Context, conn transacti
 	return dm, nil
 }
 
+func (repository *CommentsRepository) UpdateUnscoped(ctx context.Context, conn transaction.Conn, dm *domain.Comments) (*domain.Comments, error) {
+	var (
+		err error
+		m   *models.Comments
+		tx  = conn.DB()
+	)
+	if m, err = repository.DomainModelToModel(dm); err != nil {
+		return nil, err
+	}
+	queryFunc := func() (interface{}, error) {
+		tx = tx.Unscoped().Model(m).Updates(m)
+		return nil, tx.Error
+	}
+	if _, err = repository.Query(queryFunc, m.CacheKeyFunc()); err != nil {
+		return nil, err
+	}
+	return dm, nil
+}
+
 func (repository *CommentsRepository) UpdateWithVersion(ctx context.Context, transaction transaction.Conn, dm *domain.Comments) (*domain.Comments, error) {
 	var (
 		err error
@@ -108,6 +127,19 @@ func (repository *CommentsRepository) FindOne(ctx context.Context, conn transact
 	return repository.ModelToDomainModel(m)
 }
 
+func (repository *CommentsRepository) FindOneUnscoped(ctx context.Context, conn transaction.Conn, id int64) (*domain.Comments, error) {
+	var (
+		err error
+		tx  = conn.DB()
+		m   = new(models.Comments)
+	)
+	err = tx.Unscoped().First(m, id).Error
+	if err != nil {
+		return nil, err
+	}
+	return repository.ModelToDomainModel(m)
+}
+
 func (repository *CommentsRepository) FindOneByUuid(ctx context.Context, conn transaction.Conn, uuid string) (*domain.Comments, error) {
 	var (
 		err error
@@ -136,6 +168,12 @@ func (repository *CommentsRepository) Find(ctx context.Context, conn transaction
 	)
 	queryFunc := func() (interface{}, error) {
 		tx = tx.Model(&ms).Order("id desc")
+		if v, ok := queryOptions["postId"]; ok {
+			tx.Where("post_id = ?", v)
+		}
+		if v, ok := queryOptions["unscoped"]; ok && v.(bool) {
+			tx.Unscoped()
+		}
 		if total, tx = transaction.PaginationAndCount(ctx, tx, queryOptions, &ms); tx.Error != nil {
 			return dms, tx.Error
 		}

@@ -40,6 +40,7 @@ func (i *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 		logx.Info("--> unary interceptor: ", info.FullMethod)
 		claims, err := i.Authorize(ctx, info.FullMethod)
 		if err != nil {
+			logx.Error(err.Error())
 			return nil, err
 		}
 		if claims != nil {

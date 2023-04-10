@@ -22,9 +22,11 @@ type Comments struct {
 type CommentsRepository interface {
 	Insert(ctx context.Context, conn transaction.Conn, dm *Comments) (*Comments, error)
 	Update(ctx context.Context, conn transaction.Conn, dm *Comments) (*Comments, error)
+	UpdateUnscoped(ctx context.Context, conn transaction.Conn, dm *Comments) (*Comments, error)
 	UpdateWithVersion(ctx context.Context, conn transaction.Conn, dm *Comments) (*Comments, error)
 	Delete(ctx context.Context, conn transaction.Conn, dm *Comments) (*Comments, error)
 	FindOne(ctx context.Context, conn transaction.Conn, id int64) (*Comments, error)
+	FindOneUnscoped(ctx context.Context, conn transaction.Conn, id int64) (*Comments, error)
 	Find(ctx context.Context, conn transaction.Conn, queryOptions map[string]interface{}) (int64, []*Comments, error)
 	FindOneByUuid(ctx context.Context, conn transaction.Conn, uuid string) (*Comments, error)
 }

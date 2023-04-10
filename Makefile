@@ -90,6 +90,14 @@ comment-server:
 blog-server:
 	go run ./app/blog/cmd/rpc/blog.go -f ./app/blog/cmd/rpc/etc/blog.yaml
 
+.PHONY: win-up
+win-up:
+	start make user-server
+	start make auth-server
+	start make post-server
+	start make comment-server
+	start make blog-server
+
 .PHONY: docker-build
 docker-build:
 	docker build -f deploy/build/blog/Dockerfile -t tiptok/gz-blog:1.0.0 .

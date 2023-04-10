@@ -25,15 +25,15 @@ type Config struct {
 }
 
 type DTM struct {
-	Server Server
+	Server Server `json:",optional"`
 }
 
 type Server struct {
-	Name    string
-	Host    string
-	GRPC    GRPC
-	HTTP    HTTP
-	Metrics Metrics
+	Name    string  `json:",optional"`
+	Host    string  `json:",optional"`
+	GRPC    GRPC    `json:",optional"`
+	HTTP    HTTP    `json:",optional"`
+	Metrics Metrics `json:",optional"`
 }
 
 type HTTP struct {

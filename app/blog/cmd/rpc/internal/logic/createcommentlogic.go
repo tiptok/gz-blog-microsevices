@@ -55,7 +55,7 @@ func (l *CreateCommentLogic) CreateComment(req *v1.CreateCommentRequest) (*v1.Cr
 		UserId:  userResp.GetUser().GetId(),
 		Content: req.GetComment().GetContent(),
 	}
-	dtmGRPCServerAddr := "etcd://localhost:2379/dtmservice"
+	dtmGRPCServerAddr := l.svcCtx.Config.DTM.Server.GRPC.Port // "etcd://localhost:2379/dtmservice"
 	gid := dtmgrpc.MustGenGid(dtmGRPCServerAddr)
 	logx.Info("gid:", gid)
 	commentTarget, err := l.svcCtx.Config.CommentRpc.BuildTarget()
