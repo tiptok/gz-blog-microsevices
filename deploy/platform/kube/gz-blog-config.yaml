@@ -28,9 +28,80 @@ data:
       Key: blog.rpc
     Http:
       Port: '0.0.0.0:9080'
+    JWT:
+      Secret: dsjoilkejrnlk
+      Expires: 36000s  
     UserRpc:
       Etcd:
         Hosts:
           - etcd.etcd.svc.cluster.local:2379
         Key: user.rpc
         NonBlock: true      
+    AuthRpc:
+      Etcd:
+        Hosts:
+          - etcd.etcd.svc.cluster.local:2379
+        Key: auth.rpc
+        NonBlock: true
+    PostRpc:
+      Etcd:
+        Hosts:
+          - etcd.etcd.svc.cluster.local:2379
+        Key: post.rpc
+        NonBlock: true
+
+    CommentRpc:
+      Etcd:
+        Hosts:
+          - etcd.etcd.svc.cluster.local:2379
+        Key: comment.rpc
+        NonBlock: true
+    DTM:
+      Server:
+        GRPC:
+          Port: etcd://etcd.etcd.svc.cluster.local:2379/dtmservice 
+
+  auth.yaml: |-
+    Name: auth.rpc
+    ListenOn: 0.0.0.0:8080
+    Etcd:
+      Hosts:
+        - etcd.etcd.svc.cluster.local:2379
+      Key: auth.rpc
+    JWT:
+      Secret: dsjoilkejrnlk
+      Expires: 36000s  
+
+  post.yaml: |-
+    Name: post.rpc
+    ListenOn: 0.0.0.0:8080
+    Etcd:
+      Hosts:
+        - etcd.etcd.svc.cluster.local:2379
+      Key: post.rpc
+    Redis:
+      Host: service-redis.redis.svc.cluster.local:6379
+      Type: node
+      Pass:
+    DB:
+      DataSource: root:password@tcp(mysql-svc.app.svc.cluster.local:3306)/blog?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+    Cache:
+      - Host: service-redis.redis.svc.cluster.local:6379
+        Pass:  
+
+  comment.yaml: |-
+    Name: comment.rpc
+    ListenOn: 0.0.0.0:8080
+    Etcd:
+      Hosts:
+        - etcd.etcd.svc.cluster.local:2379
+      Key: comment.rpc
+    Redis:
+      Host: service-redis.redis.svc.cluster.local:6379
+      Type: node
+      Pass:
+    DB:
+      DataSource: root:password@tcp(mysql-svc.app.svc.cluster.local:3306)/blog?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+    Cache:
+      - Host: service-redis.redis.svc.cluster.local:6379
+        Pass:                                 

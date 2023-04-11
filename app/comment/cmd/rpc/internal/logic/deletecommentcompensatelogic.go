@@ -30,7 +30,7 @@ func (l *DeleteCommentCompensateLogic) DeleteCommentCompensate(req *v1.DeleteCom
 	conn := l.svcCtx.DefaultDBConn()
 	commentID := int64(req.GetId())
 	find, err := l.svcCtx.CommentsRepository.FindOneUnscoped(l.ctx, conn, commentID)
-	if err == nil {
+	if err != nil {
 		return nil, status.Errorf(codes.NotFound, "comment %v not fount : %v", commentID, err)
 	}
 	find.DeletedAt = sql.NullTime{}

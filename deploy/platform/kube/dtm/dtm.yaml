@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dtm-server
+    version: v1
+  name: dtm-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dtm-server
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: dtm-server
+        version: v1
+    spec:
+      serviceAccountName: find-endpoints
+      containers:
+        - name: dtm-server
+          image: yedf/dtm:1.16
+          imagePullPolicy: IfNotPresent
+          args:
+            - "-c=/app/dtm/configs/config.yaml"
+          volumeMounts:
+            - mountPath: /app/dtm/configs
+              name: config
+          ports:
+            - containerPort: 36789
+              protocol: TCP
+              name: http
+            - containerPort: 36790
+              protocol: TCP
+              name: grpc
+          livenessProbe:
+            httpGet:
+              path: /api/ping
+              port: 36789
+              scheme: HTTP
+          readinessProbe:
+            httpGet:
+              path: /api/ping
+              port: 36789
+              scheme: HTTP
+          resources:
+            requests:
+              cpu: 200m
+              memory: 200Mi
+      volumes:
+        - name: config
+          configMap:
+            name: dtm-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dtm-server
+  labels:
+    app: dtm-server
+spec:
+  ports:
+    - port: 36790
+      targetPort: 36790
+      name: grpc
+      appProtocol: grpc
+    - port: 36789
+      targetPort: 36789
+      name: http
+      appProtocol: http
+  selector:
+    app: dtm-server
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dtm-config
+  labels:
+    app: dtm-server
+data:
+  config.yaml: |-
+    MicroService:
+      Driver: 'dtm-driver-gozero' # 配置dtm使用go-zero的微服务协议
+      Target: 'etcd://etcd.etcd.svc.cluster.local:2379/dtmservice' # 把dtm注册到etcd的这个地址
+      EndPoint: 'dtm-server.app:36790' # dtm的本地地址

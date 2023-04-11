@@ -29,11 +29,11 @@ func (l *DeleteCommentLogic) DeleteComment(req *v1.DeleteCommentRequest) (*v1.De
 	conn := l.svcCtx.DefaultDBConn()
 	commentID := int64(req.GetId())
 	find, err := l.svcCtx.CommentsRepository.FindOne(l.ctx, conn, commentID)
-	if err == nil {
+	if err != nil {
 		return nil, status.Errorf(codes.NotFound, "comment %v not fount : %v", commentID, err)
 	}
 	_, err = l.svcCtx.CommentsRepository.Delete(l.ctx, conn, find)
-	if err == nil {
+	if err != nil {
 		return nil, status.Errorf(codes.Internal, "delete comment failed :%v", err)
 	}
 	return &v1.DeleteCommentResponse{

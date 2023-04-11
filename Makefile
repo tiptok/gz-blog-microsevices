@@ -102,9 +102,9 @@ win-up:
 docker-build:
 	docker build -f deploy/build/blog/Dockerfile -t tiptok/gz-blog:1.0.0 .
 	docker build -f deploy/build/user/Dockerfile -t tiptok/gz-blog-user:1.0.0 .
-    docker build -f deploy/build/auth/Dockerfile -t tiptok/gz-blog-auth:1.0.0 .
-    docker build -f deploy/build/post/Dockerfile -t tiptok/gz-blog-post:1.0.0 .
-    docker build -f deploy/build/comment/Dockerfile -t tiptok/gz-blog-comment:1.0.0 .
+	docker build -f deploy/build/auth/Dockerfile -t tiptok/gz-blog-auth:1.0.0 .
+	docker build -f deploy/build/post/Dockerfile -t tiptok/gz-blog-post:1.0.0 .
+	docker build -f deploy/build/comment/Dockerfile -t tiptok/gz-blog-comment:1.0.0 .
 
 .PHONY: kube-deploy
 kube-deploy:

@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gz-blog-comment
+  labels:
+    app: gz-blog-comment
+    version: v1
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: gz-blog-comment
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: gz-blog-comment
+        version: v1
+    spec:
+      serviceAccountName: find-endpoints
+      containers:
+      - name: gz-blog-comment
+        image: docker.io/tiptok/gz-blog-comment:1.0.0
+        imagePullPolicy: IfNotPresent
+        lifecycle:
+          preStop:
+            exec:
+              command: ["sh","-c","sleep 5"]
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        volumeMounts:
+        - name: timezone
+          mountPath: /etc/localtime
+        - name: config
+          mountPath: /app/etc
+      volumes:
+        - name: timezone
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Shanghai
+        - name: config
+          configMap:
+            name: gz-blog-config
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: gz-blog-comment-svc
+spec:
+  ports:
+    - name: rpc
+      protocol: TCP
+      targetPort: 8080
+      port: 8080
+  selector:
+    app: gz-blog-comment
+
+---
