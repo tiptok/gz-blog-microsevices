@@ -1,7 +1,6 @@
 package models
 
 import (
-	"database/sql"
 	"fmt"
 	"gorm.io/gorm"
 	"time"
@@ -16,7 +15,7 @@ type Posts struct {
 	CommentsCount int64
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
-	DeletedAt     sql.NullTime `gorm:"softDelete"`
+	DeletedAt     gorm.DeletedAt `gorm:"softDelete"`
 	Version       int64
 }
 

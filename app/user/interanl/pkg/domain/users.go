@@ -2,8 +2,8 @@ package domain
 
 import (
 	"context"
-	"database/sql"
 	"github.com/tiptok/gz-blog-microsevices/app/user/interanl/pkg/db/transaction"
+	"gorm.io/gorm"
 	"time"
 )
 
@@ -16,7 +16,7 @@ type Users struct {
 	Password  string
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt sql.NullTime `gorm:"softDelete:milli"`
+	DeletedAt gorm.DeletedAt `gorm:"softDelete:milli"`
 	Version   int
 }
 

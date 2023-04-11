@@ -32,7 +32,9 @@ func (repository *UsersRepository) FindOneByEmail(ctx context.Context, conn tran
 		}
 		return m, tx.Error
 	}
-	if _, err = repository.Query(queryFunc); err != nil {
+	cacheModel := new(models.Users)
+	cacheModel.Email = email
+	if err = repository.QueryUniqueIndexCache(cacheModel.CachePrimaryKeyFunc, m, m.CacheKeyFuncByObject, queryFunc); err != nil {
 		return nil, err
 	}
 	return repository.ModelToDomainModel(m)

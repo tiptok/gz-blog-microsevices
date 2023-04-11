@@ -51,8 +51,8 @@ func (m *Users) CacheKeyFuncByObject(obj interface{}) string {
 }
 
 func (m *Users) CachePrimaryKeyFunc() string {
-	if len("") == 0 {
+	if len(m.Email) == 0 {
 		return ""
 	}
-	return fmt.Sprintf("%v:cache:%v:primarykey:%v", "project", m.TableName(), "key")
+	return fmt.Sprintf("%v:cache:%v:primarykey:%v", "project", m.TableName(), m.Email)
 }
