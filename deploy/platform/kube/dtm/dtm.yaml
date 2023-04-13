@@ -20,7 +20,7 @@ spec:
       serviceAccountName: find-endpoints
       containers:
         - name: dtm-server
-          image: yedf/dtm:1.16
+          image: yedf/dtm:1.17
           imagePullPolicy: IfNotPresent
           args:
             - "-c=/app/dtm/configs/config.yaml"

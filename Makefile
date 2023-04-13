@@ -108,25 +108,16 @@ docker-build:
 
 .PHONY: kube-deploy
 kube-deploy:
-	kubectl apply -f ./deployments/
-	kubectl apply -f ./deployments/dtm/
-	kubectl apply -f ./deployments/blog/
-	kubectl apply -f ./deployments/user/
-	kubectl apply -f ./deployments/post/
-	kubectl apply -f ./deployments/auth/
-	kubectl apply -f ./deployments/comment/
-	kubectl apply -f ./deployments/addons/
-
+	kubectl apply -f ./deploy/platform/kube/app-namespace.yaml
+	kubectl apply -f ./deploy/platform/kube/dtm/ -n  $(n)
+	kubectl apply -f ./deploy/platform/kube/mysql/ -n  $(n)
+	kubectl apply -f ./deploy/platform/kube/ -n  $(n)
+	
 .PHONY: kube-delete
 kube-delete:
-	kubectl delete -f ./deployments/
-	kubectl delete -f ./deployments/dtm/
-	kubectl delete -f ./deployments/blog/
-	kubectl delete -f ./deployments/user/
-	kubectl delete -f ./deployments/post/
-	kubectl delete -f ./deployments/auth/
-	kubectl delete -f ./deployments/comment/
-	kubectl delete -f ./deployments/addons/
+	kubectl delete -f ./deploy/platform/kube/mysql/ -n  $(n)
+	kubectl delete -f ./deploy/platform/kube/dtm/ -n  $(n)
+	kubectl delete -f ./deploy/platform/kube/ -n  $(n)
 
 .PHONY: kube-redeploy
 kube-redeploy:
@@ -136,3 +127,6 @@ kube-redeploy:
 	kubectl patch deployment auth-server -p '{"spec": {"template": {"metadata": {"annotations": {"redeployed-at": "'${redeployed-at}'" }}}}}'
 	kubectl patch deployment post-server -p '{"spec": {"template": {"metadata": {"annotations": {"redeployed-at": "'${redeployed-at}'" }}}}}'
 	kubectl patch deployment comment-server -p '{"spec": {"template": {"metadata": {"annotations": {"redeployed-at": "'${redeployed-at}'" }}}}}'
+
+
+	

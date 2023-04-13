@@ -33,7 +33,7 @@ metadata:
 spec:
   ports:
     - name: tcp
-      nodePort: 31306
+      nodePort: 32306
       port: 3306
       targetPort: 3306
       protocol: TCP
