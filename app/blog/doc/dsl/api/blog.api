@@ -1,0 +1,166 @@
+syntax = "v1"
+
+info(
+	title: "博客"
+	desc: "博客网关服务"
+	author: "tiptok"
+	email: "785409885@qq.com"
+	version: "v1"
+)
+
+@server(
+	prefix: /api.rest.blog.v1/
+	group: blog
+)
+
+service blog {
+	@doc "注册"
+	@handler signUp
+	post /sign-up (SignUpRequest) returns (SignUpResponse)
+	@doc "登录"
+	@handler signIn
+	post /sign-in (SignInRequest) returns (SignInResponse)
+	@doc "创建帖子"
+	@handler createPosts
+	post /posts (CreatePostRequest) returns (CreatePostResponse)
+	@doc "帖子详情"
+	@handler getPost
+	get /posts/:id (GetPostRequest) returns (GetPostResponse)
+	@doc "删除帖子"
+	@handler deletePost
+	delete /posts/:id (DeletePostRequest) returns (DeletePostResponse)
+	@doc "更新帖子"
+	@handler updatePost
+	put /posts/:id (UpdatePostRequest) returns (UpdatePostResponse)
+	@doc "搜索帖子"
+	@handler listPosts
+	get /posts (ListPostsRequest) returns (ListPostsResponse)
+	@doc "删除帖子评论"
+	@handler deleteComment
+	delete /comments/:id (DeleteCommentRequest) returns (DeleteCommentResponse)
+	@doc "创建帖子评论"
+	@handler createComment
+	post /comments (CreateCommentRequest) returns (CreateCommentResponse)
+	@doc "更新帖子评论"
+	@handler updateComment
+	put /comments/:id (UpdateCommentRequest) returns (UpdateCommentResponse)
+	@doc "帖子评论列表"
+	@handler listComments
+	get /comments (ListCommentsByPostIDRequest) returns (ListCommentsByPostIDResponse)
+}
+
+type (
+	SignUpRequest {
+		Username string `json:"username,optional"`
+		Email    string `json:"email,optional"`
+		Password string `json:"password"`
+	}
+	SignUpResponse {
+		Token string `json:"token"`
+	}
+)
+
+type (
+	SignInRequest {
+		Username string `json:"username,optional"`
+		Email    string `json:"email,optional"`
+		Password string `json:"password"`
+	}
+	SignInResponse {
+		Token string `json:"token"`
+	}
+)
+
+type (
+	User {
+		Id       int64  `json:"id"`
+		Username string `json:"username"`
+		Avatar   string `json:"avatar"`
+	}
+	Post {
+		Id            int64  `json:"id,optional"`
+		Title         string `json:"title,optional"`
+		Content       string `json:"content,optional"`
+		UserId        int64  `json:"user_id,optional"`
+		CommentsCount int64  `json:"comments_count,optional"`
+		CreatedAt     int64  `json:"created_at,optional"`
+		UpdatedAt     int64  `json:"updated_at,optional"`
+		User          User   `json:"user,optional"`
+	}
+	Comment {
+		Id        int64  `json:"id,optional"`
+		Content   string `json:"content,optional"`
+		PostId    int64  `json:"post_id,optional"`
+		UserId    int64  `json:"user_id,optional"`
+		CreatedAt int64  `json:"created_at,optional"`
+		UpdatedAt int64  `json:"updated_at,optional"`
+		Post      Post   `json:"post,optional"`
+		User      User   `json:"user,optional"`
+	}
+
+	CreatePostRequest {
+		Post Post `json:"post"`
+	}
+	CreatePostResponse {
+		Post Post `json:"post"`
+	}
+
+	DeletePostRequest {
+		Id int64 `path:"id"`
+	}
+	DeletePostResponse {
+		Success bool `json:"success"`
+	}
+	DeleteCommentRequest {
+		Id int64 `path:"id"`
+	}
+	DeleteCommentResponse {
+		Success bool `json:"success"`
+	}
+
+	GetPostRequest {
+		Id int64 `path:"id"`
+	}
+	GetPostResponse {
+		Post Post `json:"post"`
+	}
+
+	UpdatePostRequest {
+		Post Post `json:"post"`
+	}
+	UpdatePostResponse {
+		Success bool `json:"success"`
+	}
+
+	ListPostsRequest {
+		Offset uint32 `form:"offset,optional"`
+		Limit  uint32 `form:"limit"`
+	}
+	ListPostsResponse {
+		Post  []Post `json:"posts"`
+		Total uint64 `json:"total"`
+	}
+
+	ListCommentsByPostIDRequest {
+		Offset uint32 `form:"offset,optional"`
+		Limit  uint32 `form:"limit"`
+		PostId uint64 `form:"postId"`
+	}
+	ListCommentsByPostIDResponse {
+		Comment []Comment `json:"comments"`
+		Total   uint64    `json:"total"`
+	}
+
+	CreateCommentRequest {
+		Comment Comment `json:"comment"`
+	}
+	CreateCommentResponse {
+		Comment Comment `json:"comment"`
+	}
+	UpdateCommentRequest {
+		Comment Comment `json:"comment"`
+	}
+	UpdateCommentResponse {
+		Success bool `json:"success"`
+	}
+)
