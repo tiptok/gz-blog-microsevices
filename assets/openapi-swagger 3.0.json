@@ -1,0 +1,982 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "blog-micro",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "权限"
+    },
+    {
+      "name": "帖子"
+    },
+    {
+      "name": "评论"
+    }
+  ],
+  "paths": {
+    "/api.rest.blog.v1/posts": {
+      "get": {
+        "summary": "列表帖子",
+        "x-apifox-folder": "帖子",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "帖子"
+        ],
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZXhwIjoxNjgyMzYyMDQxfQ.zDKTkO3i_90_qStlwKhXckEakpnQRBNhtI8KNFOrRfQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {}
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "创建帖子",
+        "x-apifox-folder": "帖子",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "帖子"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZXhwIjoxNjgyMzYyMDQxfQ.zDKTkO3i_90_qStlwKhXckEakpnQRBNhtI8KNFOrRfQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "x-apifox-overrides": {},
+                "type": "object",
+                "x-apifox-refs": {},
+                "x-apifox-orders": [
+                  "post"
+                ],
+                "properties": {
+                  "post": {
+                    "x-apifox-overrides": {},
+                    "type": "object",
+                    "x-apifox-refs": {
+                      "01GX5F46Y9QP4P27DHZB5BAB3T": {
+                        "$ref": "#/components/schemas/post",
+                        "x-apifox-overrides": {
+                          "id": null
+                        }
+                      }
+                    },
+                    "x-apifox-orders": [
+                      "01GX5F46Y9QP4P27DHZB5BAB3T"
+                    ],
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "title",
+                      "content"
+                    ],
+                    "x-apifox-ignore-properties": [
+                      "title",
+                      "content"
+                    ]
+                  }
+                },
+                "required": [
+                  "post"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api.rest.blog.v1/comments/{id}": {
+      "delete": {
+        "summary": "删除帖子评论",
+        "x-apifox-folder": "帖子",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "帖子"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZXhwIjoxNjgyMzYyMDQxfQ.zDKTkO3i_90_qStlwKhXckEakpnQRBNhtI8KNFOrRfQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {}
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "详情",
+        "x-apifox-folder": "评论",
+        "x-apifox-status": "deprecated",
+        "deprecated": true,
+        "description": "",
+        "tags": [
+          "评论"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZXhwIjoxNjgyMzYyMDQxfQ.zDKTkO3i_90_qStlwKhXckEakpnQRBNhtI8KNFOrRfQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {}
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "更新帖子评论",
+        "x-apifox-folder": "评论",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "评论"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZXhwIjoxNjgyMzYyMDQxfQ.zDKTkO3i_90_qStlwKhXckEakpnQRBNhtI8KNFOrRfQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "x-apifox-overrides": {},
+                "type": "object",
+                "x-apifox-refs": {},
+                "x-apifox-orders": [
+                  "comment"
+                ],
+                "properties": {
+                  "comment": {
+                    "x-apifox-overrides": {},
+                    "type": "object",
+                    "x-apifox-refs": {
+                      "01GX5GKHGJ0SXGP44PPZT1X72B": {
+                        "$ref": "#/components/schemas/comment",
+                        "x-apifox-overrides": {
+                          "id": null,
+                          "user_id": null,
+                          "post_id": null
+                        }
+                      }
+                    },
+                    "x-apifox-orders": [
+                      "01GX5GKHGJ0SXGP44PPZT1X72B"
+                    ],
+                    "properties": {
+                      "content": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "content"
+                    ],
+                    "x-apifox-ignore-properties": [
+                      "content"
+                    ]
+                  }
+                },
+                "required": [
+                  "comment"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api.rest.blog.v1/sign-in": {
+      "post": {
+        "summary": "登录",
+        "x-apifox-folder": "权限",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "权限"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZXhwIjoxNjgyMzYyMDQxfQ.zDKTkO3i_90_qStlwKhXckEakpnQRBNhtI8KNFOrRfQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "password"
+                ],
+                "x-apifox-orders": [
+                  "username",
+                  "email",
+                  "password"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api.rest.blog.v1/comments": {
+      "post": {
+        "summary": "创建帖子评论",
+        "x-apifox-folder": "评论",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "评论"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZXhwIjoxNjgyMzYyMDQxfQ.zDKTkO3i_90_qStlwKhXckEakpnQRBNhtI8KNFOrRfQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "x-apifox-overrides": {},
+                "type": "object",
+                "x-apifox-refs": {},
+                "x-apifox-orders": [
+                  "comment"
+                ],
+                "properties": {
+                  "comment": {
+                    "x-apifox-overrides": {},
+                    "type": "object",
+                    "x-apifox-refs": {
+                      "01GX5GKHGJ0SXGP44PPZT1X72B": {
+                        "$ref": "#/components/schemas/comment",
+                        "x-apifox-overrides": {
+                          "id": null,
+                          "user_id": null
+                        }
+                      }
+                    },
+                    "x-apifox-orders": [
+                      "01GX5GKHGJ0SXGP44PPZT1X72B"
+                    ],
+                    "properties": {
+                      "content": {
+                        "type": "string"
+                      },
+                      "post_id": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "content",
+                      "post_id"
+                    ],
+                    "x-apifox-ignore-properties": [
+                      "content",
+                      "post_id"
+                    ]
+                  }
+                },
+                "required": [
+                  "comment"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {}
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "列表",
+        "x-apifox-folder": "评论",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "评论"
+        ],
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZXhwIjoxNjgyMzYyMDQxfQ.zDKTkO3i_90_qStlwKhXckEakpnQRBNhtI8KNFOrRfQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api.rest.blog.v1/posts/{id}": {
+      "delete": {
+        "summary": "删除帖子",
+        "x-apifox-folder": "帖子",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "帖子"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZXhwIjoxNjgyMzYyMDQxfQ.zDKTkO3i_90_qStlwKhXckEakpnQRBNhtI8KNFOrRfQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "x-apifox-overrides": {},
+                "type": "object",
+                "x-apifox-refs": {},
+                "x-apifox-orders": [
+                  "comment"
+                ],
+                "properties": {
+                  "comment": {
+                    "x-apifox-overrides": {},
+                    "type": "object",
+                    "x-apifox-refs": {
+                      "01GX5GKHGJ0SXGP44PPZT1X72B": {
+                        "$ref": "#/components/schemas/comment",
+                        "x-apifox-overrides": {
+                          "id": null
+                        }
+                      }
+                    },
+                    "x-apifox-orders": [
+                      "01GX5GKHGJ0SXGP44PPZT1X72B"
+                    ],
+                    "properties": {
+                      "content": {
+                        "type": "string"
+                      },
+                      "post_id": {
+                        "type": "integer"
+                      },
+                      "user_id": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "content",
+                      "post_id",
+                      "user_id"
+                    ],
+                    "x-apifox-ignore-properties": [
+                      "content",
+                      "post_id",
+                      "user_id"
+                    ]
+                  }
+                },
+                "required": [
+                  "comment"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {}
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "更新帖子",
+        "x-apifox-folder": "帖子",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "帖子"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZXhwIjoxNjgyMzYyMDQxfQ.zDKTkO3i_90_qStlwKhXckEakpnQRBNhtI8KNFOrRfQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "x-apifox-overrides": {},
+                "type": "object",
+                "x-apifox-refs": {},
+                "x-apifox-orders": [
+                  "post"
+                ],
+                "properties": {
+                  "post": {
+                    "x-apifox-overrides": {},
+                    "type": "object",
+                    "x-apifox-refs": {
+                      "01GX5F46Y9QP4P27DHZB5BAB3T": {
+                        "$ref": "#/components/schemas/post",
+                        "x-apifox-overrides": {
+                          "id": null
+                        }
+                      }
+                    },
+                    "x-apifox-orders": [
+                      "01GX5F46Y9QP4P27DHZB5BAB3T"
+                    ],
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "title",
+                      "content"
+                    ],
+                    "x-apifox-ignore-properties": [
+                      "title",
+                      "content"
+                    ]
+                  }
+                },
+                "required": [
+                  "post"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {}
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "帖子详情",
+        "x-apifox-folder": "帖子",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "帖子"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZXhwIjoxNjgyMzYyMDQxfQ.zDKTkO3i_90_qStlwKhXckEakpnQRBNhtI8KNFOrRfQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api.rest.blog.v1/sign-up": {
+      "post": {
+        "summary": "注册",
+        "x-apifox-folder": "权限",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "权限"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "",
+            "example": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZXhwIjoxNjgyMzYyMDQxfQ.zDKTkO3i_90_qStlwKhXckEakpnQRBNhtI8KNFOrRfQ",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "username",
+                  "email",
+                  "password"
+                ],
+                "x-apifox-orders": [
+                  "username",
+                  "email",
+                  "password"
+                ],
+                "x-apifox-ignore-properties": []
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                },
+                "examples": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "post": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          }
+        },
+        "x-apifox-orders": [
+          "id",
+          "title",
+          "content"
+        ],
+        "required": [
+          "id",
+          "title",
+          "content"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "comment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "content": {
+            "type": "string"
+          },
+          "post_id": {
+            "type": "integer"
+          },
+          "user_id": {
+            "type": "integer"
+          }
+        },
+        "x-apifox-orders": [
+          "id",
+          "content",
+          "post_id",
+          "user_id"
+        ],
+        "required": [
+          "id",
+          "content",
+          "post_id",
+          "user_id"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      },
+      "user_common": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "username": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string"
+          }
+        },
+        "x-apifox-orders": [
+          "id",
+          "username",
+          "avatar"
+        ],
+        "required": [
+          "id",
+          "username",
+          "avatar"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      }
+    }
+  }
+}
