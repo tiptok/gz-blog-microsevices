@@ -1,7 +1,7 @@
 # gz-blog-microsevices
 
 基于 [go-zero](https://github.com/zeromicro/go-zero)+[gorm](https://github.com/go-gorm/gorm)+ddd 的博客微服务 demo，支持分布式事务。参考
-[blog-microservices ](https://github.com/jxlwqq/blog-microservices)(istio+go-kratos)
+[blog-microservices ](https://github.com/jxlwqq/blog-microservices)(istio+go-kratos)。这个项目是结合平时工作加go-zero的练手项目，感觉不错可以给个Star鼓励一下。
 
 ## 1.简介
 
@@ -38,6 +38,8 @@
 | `make kube-redeploy`     | 在集群中重新部署服务（⚠️ 数据库服务不会重新部署）                                   |
 
 ## 2. 快速开始
+
+- [演示demo 商品服务](./doc/商品服务.md)
 
 ### 2.1 服务运行
 

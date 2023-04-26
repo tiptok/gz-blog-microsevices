@@ -1,0 +1,73 @@
+
+syntax = "v1"
+
+info(
+    title: "xx实例"
+    desc: "xx实例"
+    author: "author"
+    email: "email"
+    version: "v1"
+)
+
+@server(
+    prefix: products/v1
+    group: products
+    jwt: JwtAuth
+)
+service products {
+    @handler productsGet
+    post /products/:id (ProductsGetReq) returns (ProductsGetResp)
+    @handler productsSave
+    post /products (ProductsSaveReq) returns (ProductsSaveResp)
+    @handler productsDelete
+    delete /products/:id (ProductsDeleteReq) returns (ProductsDeleteResp)
+    @handler productsUpdate
+    put /products/:id (ProductsUpdateReq) returns (ProductsUpdateResp)
+    @handler productsSearch
+    post /products/search (ProductsSearchReq) returns (ProductsSearchResp)
+}
+
+type (
+    ProductsGetReq {
+        Id int64
+    }
+    ProductsGetResp {
+
+    }
+)
+
+type  (
+    ProductsSaveReq struct{
+
+    }
+    ProductsSaveResp struct{}
+)
+
+type(
+    ProductsDeleteReq struct{
+        Id int64
+    }
+    ProductsDeleteResp struct{}
+)
+
+type(
+    ProductsUpdateReq struct{
+
+    }
+    ProductsUpdateResp{}
+)
+
+type(
+    ProductsSearchReq {
+         PageNumber int64
+         PageSize int64
+    }
+    ProductsSearchResp{
+        List []ProductsItem
+        Total int64
+    }
+)
+
+type  ProductsItem {
+
+}

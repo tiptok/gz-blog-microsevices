@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package api.protobuf.product.v1;
+
+option go_package = "../v1";
+
+message Product {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+  float price = 4;
+  string unit = 5;
+  int64 stock = 6;
+  int64 created_at = 7;
+  int64 updated_at = 8;
+}
+
+message GetProductRequest {
+   int64 Id = 1;
+}
+message GetProductResponse{
+  Product product = 1;
+}
+
+message ProductsSaveReq {
+
+}
+message ProductsSaveResp{
+
+}
+
+message ProductsDeleteReq {
+  int64 Id = 1;
+}
+message ProductsDeleteResp{
+
+}
+
+message ProductsUpdateReq {
+  int64 Id = 1;
+}
+message ProductsUpdateResp{
+
+}
+
+message ProductsSearchReq {
+  int64 PageNumber = 1;
+  int64 PageSize = 2;
+}
+message ProductsSearchResp{
+  repeated Product List =1;
+  int64  Total =2;
+}
+
+service ProductsService {
+  rpc ProductsGet(GetProductRequest) returns(GetProductResponse);
+  rpc ProductsSave(ProductsSaveReq) returns(ProductsSaveResp);
+  rpc ProductsDelete(ProductsDeleteReq) returns(ProductsDeleteResp);
+  rpc ProductsUpdate(ProductsUpdateReq) returns(ProductsUpdateResp);
+  rpc ProductsSearch(ProductsSearchReq) returns(ProductsSearchResp);
+}
