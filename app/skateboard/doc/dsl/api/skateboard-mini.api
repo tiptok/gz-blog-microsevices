@@ -1,0 +1,103 @@
+syntax = "v1"
+
+info(
+	title: "约板小程序"
+	desc: "微信相关交互"
+	author: "tiptok"
+	email: "785409885@qq.com"
+	version: "v1.0.0"
+)
+
+@server(
+	prefix: skateboard/mini
+	group: skateboard
+)
+
+service mini {
+	@doc  "微信登录"
+	@handler login
+	post /login (LoginRequest) returns (LoginResponse)
+	@doc  "用户信息"
+	@handler userInfo
+	post /user-info (UserInfoRequest) returns (UserInfoResponse)
+	@doc  "门店列表"
+	@handler shopList
+	post /shop-list (ShopListRequest) returns (ShopListResponse)
+	@doc  "门店教练列表"
+	@handler shopCoachList
+	post /coach-list (CoachListRequest) returns (CoachListResponse)
+	@doc  "门店教练预约"
+	@handler coachReserve
+	post /coach-reserve (CoachReserveRequest) returns (CoachReserveResponse)
+}
+
+type (
+	LoginRequest {
+		Code string `json:"code"`
+	}
+	LoginResponse {
+		Token string `json:"token"`
+	}
+)
+
+type (
+	UserInfoRequest {
+	}
+	UserInfoResponse {
+		User User `json:"user"`
+	}
+)
+
+type (
+	ShopListRequest {
+		Page int `json:"page"`
+		Size int `json:"size"`
+	}
+	ShopListResponse {
+		Shops []Shop `json:"shops"`
+		Total int    `json:"total"`
+	}
+)
+
+type User {
+}
+
+type Shop {
+	ShopId int `json:"shopId"`
+	Name string `json:"name"`
+	Introduction string `json:"introduction"`
+	Address string `json:"address"`
+	Lon float64 `json:"lon"`
+	Lat float64 `json:"lat"`
+	Rank int `json:"rank"`
+}
+
+type Coach {
+	CoachId         int      `json:"coachId"`
+	ShopId          int      `json:"shopId"`
+	Name            string   `json:"name"`
+	JobTitle        string   `json:"jobTitle"`
+	Labels          []string `json:"labels"`
+	TotalLessonTime int      `json:"totalLessonTime"`
+	Rank            int      `json:"rank"`
+}
+
+type (
+	CoachListRequest {
+		ShopId int `json:"shopId"`
+	}
+	CoachListResponse {
+		Coaches []Coach `json:"coach"`
+		Total   int     `json:"total"`
+	}
+)
+
+type (
+	CoachReserveRequest {
+		CoachId       int    `json:"coachId"`
+		TimeSpanBegin string `json:"timeSpanBegin"`
+		TimeSpanEnd   string `json:"timeSpanEnd"`
+	}
+	CoachReserveResponse {
+	}
+)

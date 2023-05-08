@@ -1,0 +1,14 @@
+1. api生成
+goctl api go -api .\doc\dsl\api\skateboard-mini.api -dir cmd/skateboard-mini
+
+2. 安装swagger插件
+go install github.com/zeromicro/goctl-swagger@latest
+
+3. 生成swagger文档
+goctl api plugin -plugin goctl-swagger="swagger -filename mini.json" -api skateboard-mini.api -dir .
+
+4. 构建镜像
+
+docker build -f deploy/build/skateboard/mini/Dockerfile -t tiptok/skateboard-mini:1.0.0 .
+
+域名：skateboard.godemo.top

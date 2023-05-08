@@ -1,0 +1,60 @@
+version: '3'
+
+######## 项目依赖的环境，启动项目之前要先启动此环境 #######
+######## The environment that the project depends on, starting this environment before starting the project #######
+
+services:
+
+  mysql:
+    image: mysql/mysql-server:8.0.28
+    container_name: mysql
+    environment:
+      # 时区上海 - Time zone Shanghai (Change if needed)
+      TZ: Asia/Shanghai
+      # root 密码 - root password
+      MYSQL_ROOT_PASSWORD: UYXN134KUm8TeE7
+    ports:
+      - 33069:3306
+    volumes:
+      # 数据挂载 - Data mounting
+      - ./data/mysql/data:/var/lib/mysql
+      # 日志
+    command:
+      # 将mysql8.0默认密码策略 修改为 原先 策略 (mysql8.0对其默认策略做了更改 会导致密码无法匹配) 
+      # Modify the Mysql 8.0 default password strategy to the original strategy (MySQL8.0 to change its default strategy will cause the password to be unable to match)
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+    privileged: true
+    restart: always
+    networks:
+      - skateboard_net
+
+  #redis容器 - Redis container
+  redis:
+    image: redis:6.2.5
+    container_name: redis
+    ports:
+      - 36379:6379
+    environment:
+      # 时区上海 - Time zone Shanghai (Change if needed)
+      TZ: Asia/Shanghai
+    volumes:
+      # 数据文件 - data files
+      - ./data/redis/data:/data:rw
+    command: "redis-server --requirepass G62m50oigInC30sf  --appendonly yes"
+    privileged: true
+    restart: always
+    networks:
+      - skateboard_net
+
+
+networks:
+  skateboard_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
