@@ -16,29 +16,46 @@ services:
     ports:
       - 8888:8081
     volumes:
-      - ./deploy/nginx/conf.d:/etc/nginx/conf.d
-      - ./data/nginx/log:/var/log/nginx
+      - /var/data/skateboard/nginx/conf.d:/etc/nginx/conf.d
+      - /var/data/skateboard/nginx/log:/var/log/nginx
     networks:
-      - skateboard
+      - skateboard_net
     depends_on:
-      - skateboard
+      - skateboard-system
 
-  #前端api + 业务rpc - Front-end API + business RPC
-  skateboard:
-    image: tiptok/skateboard-mini:1.0.0 # if you "macOs intel" or "linux amd"
+    #前端api + 业务rpc - Front-end API + business RPC
+  skateboard-system:
+    image: tiptok/skateboard-system:1.0.0 # if you "macOs intel" or "linux amd"
     #image: lyumikael/go-modd-env:v1.0.0  # if you macOs m1
-    container_name: skateboard-mini
+    container_name: skateboard-system
     environment:
       # 时区上海 - Timezone Shanghai
       TZ: Asia/Shanghai
       GOPROXY: https://goproxy.cn,direct
-    working_dir: /app
-    volumes:
-      - .:/app
+    # volumes:
+    #   - /go/src/github.com/flipped-aurora/gin-vue-admin/server:/server    
+    working_dir: /go/src/github.com/flipped-aurora/gin-vue-admin/server
     privileged: true
     restart: always
     networks:
       - skateboard_net
+
+  #前端api + 业务rpc - Front-end API + business RPC
+  # skateboard:
+  #   image: tiptok/skateboard-mini:1.0.0 # if you "macOs intel" or "linux amd"
+  #   #image: lyumikael/go-modd-env:v1.0.0  # if you macOs m1
+  #   container_name: skateboard-mini
+  #   environment:
+  #     # 时区上海 - Timezone Shanghai
+  #     TZ: Asia/Shanghai
+  #     GOPROXY: https://goproxy.cn,direct
+  #   working_dir: /app
+  #   volumes:
+  #     - .:/app
+  #   privileged: true
+  #   restart: always
+  #   networks:
+  #     - skateboard_net
 
 networks:
   skateboard_net:

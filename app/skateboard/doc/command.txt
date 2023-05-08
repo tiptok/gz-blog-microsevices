@@ -8,7 +8,14 @@ go install github.com/zeromicro/goctl-swagger@latest
 goctl api plugin -plugin goctl-swagger="swagger -filename mini.json" -api skateboard-mini.api -dir .
 
 4. 构建镜像
-
+docker build -f Dockerfile -t tiptok/skateboard-system:1.0.0 .
 docker build -f deploy/build/skateboard/mini/Dockerfile -t tiptok/skateboard-mini:1.0.0 .
 
 域名：skateboard.godemo.top
+
+5.启动服务
+环境
+docker-compose -f app/skateboard/deploy/docker-compose-env.yml up -d
+docker-compose -f app/skateboard/deploy/docker-compose-env.yml down
+应用
+docker-compose -f app/skateboard/deploy/docker-compose.yml up -d

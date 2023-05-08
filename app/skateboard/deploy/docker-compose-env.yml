@@ -17,7 +17,7 @@ services:
       - 33069:3306
     volumes:
       # 数据挂载 - Data mounting
-      - ./data/mysql/data:/var/lib/mysql
+      - /var/data/skateboard/mysql/data:/var/lib/mysql
       # 日志
     command:
       # 将mysql8.0默认密码策略 修改为 原先 策略 (mysql8.0对其默认策略做了更改 会导致密码无法匹配) 
@@ -43,7 +43,8 @@ services:
       TZ: Asia/Shanghai
     volumes:
       # 数据文件 - data files
-      - ./data/redis/data:/data:rw
+      - /var/data/skateboard/redis/data:/data:rw
+      - /var/data/skateboard/redis/redis.conf:/etc/redis/redis.conf
     command: "redis-server --requirepass G62m50oigInC30sf  --appendonly yes"
     privileged: true
     restart: always
