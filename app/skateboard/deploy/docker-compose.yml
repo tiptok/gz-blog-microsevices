@@ -15,7 +15,9 @@ services:
       - TZ=Asia/Shanghai
     ports:
       - 8888:8081
+      - 443:443
     volumes:
+      - /var/data/skateboard/nginx/cert:/etc/nginx/cert
       - /var/data/skateboard/nginx/conf.d:/etc/nginx/conf.d
       - /var/data/skateboard/nginx/log:/var/log/nginx
     networks:
