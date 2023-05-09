@@ -1,4 +1,4 @@
-version: '3'
+version: '3.2'
 
 ######## app下api+rpc ,  Before starting this project, start the environment that the project depends on docker-compose-env.yml #######
 
@@ -33,7 +33,11 @@ services:
       TZ: Asia/Shanghai
       GOPROXY: https://goproxy.cn,direct
     # volumes:
-    #   - /go/src/github.com/flipped-aurora/gin-vue-admin/server:/server    
+    #   - /go/src/github.com/flipped-aurora/gin-vue-admin/server:/server  
+    volumes:
+      - type: bind  
+        source: /var/data/skateboard/app/system/etc/config.docker.yaml   #这个是宿主机的地址
+        target: /go/src/github.com/flipped-aurora/gin-vue-admin/server/config.docker.yaml  #这个是容器里配置文件的地址  
     working_dir: /go/src/github.com/flipped-aurora/gin-vue-admin/server
     privileged: true
     restart: always
@@ -41,21 +45,25 @@ services:
       - skateboard_net
 
   #前端api + 业务rpc - Front-end API + business RPC
-  # skateboard:
-  #   image: tiptok/skateboard-mini:1.0.0 # if you "macOs intel" or "linux amd"
-  #   #image: lyumikael/go-modd-env:v1.0.0  # if you macOs m1
-  #   container_name: skateboard-mini
-  #   environment:
-  #     # 时区上海 - Timezone Shanghai
-  #     TZ: Asia/Shanghai
-  #     GOPROXY: https://goproxy.cn,direct
-  #   working_dir: /app
-  #   volumes:
-  #     - .:/app
-  #   privileged: true
-  #   restart: always
-  #   networks:
-  #     - skateboard_net
+  skateboard:
+    image: tiptok/skateboard-mini:1.0.0 # if you "macOs intel" or "linux amd"
+    #image: lyumikael/go-modd-env:v1.0.0  # if you macOs m1
+    container_name: skateboard-mini
+    environment:
+      # 时区上海 - Timezone Shanghai
+      TZ: Asia/Shanghai
+      GOPROXY: https://goproxy.cn,direct
+    working_dir: /app/skateboard
+    # volumes:
+    #   - .:/app
+    volumes:
+      - type: bind  
+        source: /var/data/skateboard/app/mini/etc/mini.yaml   #这个是宿主机的地址
+        target: /app/skateboard/etc/mini.yaml  #这个是容器里配置文件的地址  
+    privileged: true
+    restart: always
+    networks:
+      - skateboard_net
 
 networks:
   skateboard_net:
