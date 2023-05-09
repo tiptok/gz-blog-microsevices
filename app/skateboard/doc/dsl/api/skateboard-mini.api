@@ -31,73 +31,103 @@ service mini {
 	post /coach-reserve (CoachReserveRequest) returns (CoachReserveResponse)
 }
 
-type (
-	LoginRequest {
-		Code string `json:"code"`
+type(
+	User struct{
+		UserId int `json:"userId,omitempty"`         // 用户ID
+		ClientType string `json:"clientType,omitempty"`// 客户端类型 1:wx-stu 2:wx-coach
+		Name string `json:"name,omitempty"`			// 名称
+	    Avator string `json:"avator,omitempty"`  	// 头像
+		Phone string `json:"phone,omitempty"`		// 手机号
+		WXNumber string `json:"wxNumber,omitempty"` // 微信编号
+		Password string `json:"password,omitempty"` // 密码 MD5()
+		WXOpenId string `json:"wxOpenId,omitempty"` //微信认证 OpenID
+		UserCourseInfo *UserCourseInfo `json:"userCourseInfo,omitempty"` //
 	}
-	LoginResponse {
+	UserCourseInfo struct{
+
+	}
+	Shop struct{
+		ShopId int  `json:"shopId,omitempty"`
+		Name string `json:"name,omitempty"`
+		Introduction string `json:"introduction,omitempty"`
+		Address Address `json:"address"`
+		Rank int 		`json:"rank,omitempty"`
+	}
+	Coach struct{
+		CoachId         int      `json:"coachId,omitempty"`
+		UserId 			int      `json:"userId,omitempty"`
+		ShopId          int      `json:"shopId,omitempty"`
+		Name            string   `json:"name,omitempty"`
+		JobTitle        string   `json:"jobTitle,omitempty"`
+		Labels          []string `json:"labels,omitempty"`
+		TotalLessonTime int      `json:"totalLessonTime,omitempty"`
+		Rank            int      `json:"rank,omitempty"`
+
+		Shop           *Shop     `json:"shop,omitempty"`
+		User 		   *User     `json:"user,omitempty"`
+	}
+	Activity struct{
+		Address Address `json:"address"`
+	}
+	Address struct{
+		Address string `json:"address,omitempty"`
+		Lon float64 `json:"lon,omitempty"`
+		Lat float64 `json:"lat,omitempty"`
+	}
+)
+
+// **************************  skateboard/mini proto **************************
+
+type (
+	LoginRequest struct{
+		ClientType string `json:"clientType"`
+		WXAuthCode  string `json:"wxAuthcode,optional"`
+		Phone string `json:"phone,optional"`
+		Password string `json:"password,optional"`
+	}
+	LoginResponse struct{
 		Token string `json:"token"`
 	}
 )
 
 type (
-	UserInfoRequest {
+	UserInfoRequest struct{
 	}
-	UserInfoResponse {
+	UserInfoResponse struct{
 		User User `json:"user"`
 	}
 )
 
 type (
-	ShopListRequest {
+	ShopListRequest struct{
 		Page int `json:"page"`
 		Size int `json:"size"`
 	}
-	ShopListResponse {
+	ShopListResponse struct{
 		Shops []Shop `json:"shops"`
 		Total int    `json:"total"`
 	}
 )
 
-type User {
-}
-
-type Shop {
-	ShopId int `json:"shopId"`
-	Name string `json:"name"`
-	Introduction string `json:"introduction"`
-	Address string `json:"address"`
-	Lon float64 `json:"lon"`
-	Lat float64 `json:"lat"`
-	Rank int `json:"rank"`
-}
-
-type Coach {
-	CoachId         int      `json:"coachId"`
-	ShopId          int      `json:"shopId"`
-	Name            string   `json:"name"`
-	JobTitle        string   `json:"jobTitle"`
-	Labels          []string `json:"labels"`
-	TotalLessonTime int      `json:"totalLessonTime"`
-	Rank            int      `json:"rank"`
-}
-
 type (
-	CoachListRequest {
+	CoachListRequest struct{
 		ShopId int `json:"shopId"`
 	}
-	CoachListResponse {
+	CoachListResponse struct{
 		Coaches []Coach `json:"coach"`
 		Total   int     `json:"total"`
 	}
 )
 
 type (
-	CoachReserveRequest {
+	CoachReserveRequest struct{
 		CoachId       int    `json:"coachId"`
 		TimeSpanBegin string `json:"timeSpanBegin"`
 		TimeSpanEnd   string `json:"timeSpanEnd"`
 	}
-	CoachReserveResponse {
+	CoachReserveResponse struct{
 	}
 )
+
+
+// **************************  skateboard/system proto **************************
