@@ -179,7 +179,7 @@ port: 6379
 k apply -f deploy/platform/kube/etcd/etcd.yaml
 k apply -f deploy/platform/kube/etcd/etcd-web-ui.yaml 
 查看 etcd v3 web ui
-http://106.52.103.187:30081/
+http://1.1.1.1:30081/
 
 # 检查etcd状态、服务注册情况
 etcdctl get user.rpc --prefix

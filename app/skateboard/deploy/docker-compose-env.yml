@@ -50,7 +50,19 @@ services:
     restart: always
     networks:
       - skateboard_net
-
+  # postgresql容器
+  postgresql:
+    image: postgres:12.3
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=UYXN134KUm8TeE7
+    ports:
+      - '25431:5432'
+    volumes:
+      - /var/data/skateboard/postgresql/data:/var/lib/postgresql/data
+    networks:
+      - skateboard_net
 
 networks:
   skateboard_net:

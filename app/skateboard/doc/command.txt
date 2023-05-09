@@ -9,6 +9,7 @@ goctl api plugin -plugin goctl-swagger="swagger -filename mini.json" -api skateb
 
 4. 构建镜像
 docker build -f Dockerfile -t tiptok/skateboard-system:1.0.0 .
+docker build -f Dockerfile -t tiptok/skateboard-web:1.0.0 .
 docker build -f deploy/build/skateboard/mini/Dockerfile -t tiptok/skateboard-mini:1.0.0 .
 
 域名：skateboard.godemo.top
