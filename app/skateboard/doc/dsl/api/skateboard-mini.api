@@ -20,25 +20,41 @@ import(
 service mini {
 	// **************************  skateboard/mini proto **************************
 	@doc  "微信登录"
-	@handler login
+	@handler miniLogin
 	post /mini/login (LoginRequest) returns (LoginResponse)
 	@doc  "用户信息"
-	@handler userInfo
+	@handler miniUserInfo
 	post /mini/user-info (UserInfoRequest) returns (UserInfoResponse)
 	@doc  "门店列表"
-	@handler shopList
+	@handler miniShopList
 	post /mini/shop-list (ShopListRequest) returns (ShopListResponse)
 	@doc  "门店教练列表"
-	@handler shopCoachList
+	@handler miniShopCoachList
 	post /mini/coach-list (CoachListRequest) returns (CoachListResponse)
 	@doc  "门店教练预约"
-	@handler coachReserve
+	@handler miniCoachReserve
 	post /mini/coach-reserve (CoachReserveRequest) returns (CoachReserveResponse)
 	
 	// **************************  skateboard/system proto **************************
 	@doc  "门店教练创建"
-	@handler coachCreate
+	@handler systemCoachCreate
 	post /system/coach (CoachCreateRequest) returns (CoachCreateResponse)
+	
+	@doc  "门店详情"
+	@handler systemShopGet
+	post /system/shop/:id (ShopGetRequest) returns (ShopGetResponse)
+	@doc  "门店保存"
+	@handler systemShopSave
+	post /system/shop (ShopSaveRequest) returns (ShopSaveResponse)
+	@doc  "门店删除"
+	@handler systemShopDelete
+	delete /system/shop/:id (ShopDeleteRequest) returns (ShopDeleteResponse)
+	@doc  "门店更新"
+	@handler systemShopUpdate
+	put /system/shop/:id (ShopUpdateRequest) returns (ShopUpdateResponse)
+	@doc  "门店搜索"
+	@handler systemShopSearch
+	post /system/shop/search (ShopSearchRequest) returns (ShopSearchResponse)
 }
 
 // **************************  skateboard/mini proto **************************
@@ -102,5 +118,38 @@ type (
 	CoachCreateRequest {
 	}
 	CoachCreateResponse {
+	}
+)
+
+type (
+	ShopGetRequest {Id int `path:"id"`}
+	ShopGetResponse struct{Shop ShopItem `json:"shop"`}
+
+	ShopSaveRequest {Shop ShopItem `json:"shop"`}
+	ShopSaveResponse struct{}
+
+	ShopDeleteRequest {Id int `path:"id"`}
+	ShopDeleteResponse struct{}
+
+	ShopUpdateRequest {
+		Id int `path:"id"`
+		Shop ShopItem `json:"shop"`
+	}
+	ShopUpdateResponse struct{}
+
+	ShopSearchRequest {
+		Page int `json:"page"`
+		Size int `json:"size"`
+	}
+	ShopSearchResponse {
+		List  []ShopItem `json:"list"`
+		Total int64      `json:"total"`
+	}
+	ShopItem {
+		ShopId       int      `json:"shopId,omitempty,optional"`
+		Name         string   `json:"name,omitempty"`
+		Introduction string   `json:"introduction,omitempty"`
+		Rank         int      `json:"rank,omitempty"`
+		Address      *Address `json:"address,omitempty"`
 	}
 )

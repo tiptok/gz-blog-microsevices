@@ -1,6 +1,7 @@
 package skateboard
 
 import (
+	"github.com/tiptok/gz-blog-microsevices/pkg/result"
 	"net/http"
 
 	"github.com/tiptok/gz-blog-microsevices/app/skateboard/cmd/mini/internal/logic/skateboard"
@@ -9,20 +10,16 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-func ShopListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func SystemCoachCreateHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.ShopListRequest
+		var req types.CoachCreateRequest
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.Error(w, err)
 			return
 		}
 
-		l := skateboard.NewShopListLogic(r.Context(), svcCtx)
-		resp, err := l.ShopList(&req)
-		if err != nil {
-			httpx.Error(w, err)
-		} else {
-			httpx.OkJson(w, resp)
-		}
+		l := skateboard.NewSystemCoachCreateLogic(r.Context(), svcCtx)
+		resp, err := l.SystemCoachCreate(&req)
+		result.HttpResult(r, w, resp, err)
 	}
 }

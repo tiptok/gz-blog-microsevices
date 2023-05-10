@@ -1,0 +1,54 @@
+
+syntax = "proto3";
+
+option go_package ="./pb";
+
+package pb;
+
+message ShopGetReq {
+   int64 Id = 1;
+}
+message ShopGetResp{
+    ShopItem User = 1;
+}
+
+message ShopSaveReq {
+
+}
+message ShopSaveResp{
+
+}
+
+message ShopDeleteReq {
+  int64 Id = 1;
+}
+message ShopDeleteResp{
+
+}
+
+message ShopUpdateReq {
+  int64 Id = 1;
+}
+message ShopUpdateResp{
+
+}
+
+message ShopSearchReq {
+  int64 PageNumber = 1;
+  int64 PageSize = 2;
+}
+message ShopSearchResp{
+  repeated ShopItem List =1;
+  int64  Total =2;
+}
+message ShopItem {
+
+}
+
+service ShopService {
+  rpc ShopGet(ShopGetReq) returns(ShopGetResp);
+  rpc ShopSave(ShopSaveReq) returns(ShopSaveResp);
+  rpc ShopDelete(ShopDeleteReq) returns(ShopDeleteResp);
+  rpc ShopUpdate(ShopUpdateReq) returns(ShopUpdateResp);
+  rpc ShopSearch(ShopSearchReq) returns(ShopSearchResp);
+}

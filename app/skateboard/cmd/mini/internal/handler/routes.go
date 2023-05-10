@@ -16,32 +16,57 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			{
 				Method:  http.MethodPost,
 				Path:    "/mini/login",
-				Handler: skateboard.LoginHandler(serverCtx),
+				Handler: skateboard.MiniLoginHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/mini/user-info",
-				Handler: skateboard.UserInfoHandler(serverCtx),
+				Handler: skateboard.MiniUserInfoHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/mini/shop-list",
-				Handler: skateboard.ShopListHandler(serverCtx),
+				Handler: skateboard.MiniShopListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/mini/coach-list",
-				Handler: skateboard.ShopCoachListHandler(serverCtx),
+				Handler: skateboard.MiniShopCoachListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/mini/coach-reserve",
-				Handler: skateboard.CoachReserveHandler(serverCtx),
+				Handler: skateboard.MiniCoachReserveHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/system/coach",
-				Handler: skateboard.CoachCreateHandler(serverCtx),
+				Handler: skateboard.SystemCoachCreateHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/system/shop/:id",
+				Handler: skateboard.SystemShopGetHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/system/shop",
+				Handler: skateboard.SystemShopSaveHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/system/shop/:id",
+				Handler: skateboard.SystemShopDeleteHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/system/shop/:id",
+				Handler: skateboard.SystemShopUpdateHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/system/shop/search",
+				Handler: skateboard.SystemShopSearchHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/skateboard"),

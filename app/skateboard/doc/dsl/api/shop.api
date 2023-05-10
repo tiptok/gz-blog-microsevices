@@ -1,0 +1,73 @@
+
+syntax = "v1"
+
+info(
+    title: "xx实例"
+    desc: "xx实例"
+    author: "author"
+    email: "email"
+    version: "v1"
+)
+
+@server(
+    prefix: shop/v1
+    group: shop
+    jwt: JwtAuth
+)
+service shop {
+    @handler shopGet
+    post /shop/:id (ShopGetReq) returns (ShopGetResp)
+    @handler shopSave
+    post /shop (ShopSaveReq) returns (ShopSaveResp)
+    @handler shopDelete
+    delete /shop/:id (ShopDeleteReq) returns (ShopDeleteResp)
+    @handler shopUpdate
+    put /shop/:id (ShopUpdateReq) returns (ShopUpdateResp)
+    @handler shopSearch
+    post /shop/search (ShopSearchReq) returns (ShopSearchResp)
+}
+
+type (
+    ShopGetReq {
+        Id int64
+    }
+    ShopGetResp {
+
+    }
+)
+
+type  (
+    ShopSaveReq struct{
+
+    }
+    ShopSaveResp struct{}
+)
+
+type(
+    ShopDeleteReq struct{
+        Id int64
+    }
+    ShopDeleteResp struct{}
+)
+
+type(
+    ShopUpdateReq struct{
+
+    }
+    ShopUpdateResp{}
+)
+
+type(
+    ShopSearchReq {
+         PageNumber int64
+         PageSize int64
+    }
+    ShopSearchResp{
+        List []ShopItem
+        Total int64
+    }
+)
+
+type  ShopItem {
+
+}

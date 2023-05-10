@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/tiptok/gz-blog-microsevices/app/skateboard/interanl/pkg/db"
 
 	"github.com/tiptok/gz-blog-microsevices/app/skateboard/cmd/mini/internal/config"
 	"github.com/tiptok/gz-blog-microsevices/app/skateboard/cmd/mini/internal/handler"
@@ -25,6 +26,7 @@ func main() {
 
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
+	db.Migrate(ctx.DB)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()

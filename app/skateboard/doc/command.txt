@@ -1,11 +1,14 @@
 1. api生成
 goctl api go -api .\doc\dsl\api\skateboard-mini.api -dir cmd/mini
 
+1.1 生成模型
+goctl model mysql ddl -s .\doc\dsl\model\skateboard.sql -d .
+
 2. 安装swagger插件
 go install github.com/zeromicro/goctl-swagger@latest
 
 3. 生成swagger文档
-goctl api plugin -plugin goctl-swagger="swagger -filename mini.json" -api skateboard-mini.api -dir .
+goctl api plugin -plugin goctl-swagger="swagger -filename mini-swagger.json" -api .\doc\dsl\api\skateboard-mini.api -dir .\doc\dsl\api
 
 4. 构建镜像
 docker build -f Dockerfile -t tiptok/skateboard-system:1.0.0 .

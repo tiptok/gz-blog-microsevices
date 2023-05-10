@@ -9,16 +9,16 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-func ShopCoachListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func MiniUserInfoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.CoachListRequest
+		var req types.UserInfoRequest
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.Error(w, err)
 			return
 		}
 
-		l := skateboard.NewShopCoachListLogic(r.Context(), svcCtx)
-		resp, err := l.ShopCoachList(&req)
+		l := skateboard.NewMiniUserInfoLogic(r.Context(), svcCtx)
+		resp, err := l.MiniUserInfo(&req)
 		if err != nil {
 			httpx.Error(w, err)
 		} else {

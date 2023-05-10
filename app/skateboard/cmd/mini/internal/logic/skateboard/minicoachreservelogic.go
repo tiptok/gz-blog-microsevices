@@ -9,21 +9,21 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type CoachCreateLogic struct {
+type MiniCoachReserveLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewCoachCreateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CoachCreateLogic {
-	return &CoachCreateLogic{
+func NewMiniCoachReserveLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MiniCoachReserveLogic {
+	return &MiniCoachReserveLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *CoachCreateLogic) CoachCreate(req *types.CoachCreateRequest) (resp *types.CoachCreateResponse, err error) {
+func (l *MiniCoachReserveLogic) MiniCoachReserve(req *types.CoachReserveRequest) (resp *types.CoachReserveResponse, err error) {
 	// todo: add your logic here and delete this line
 
 	return
