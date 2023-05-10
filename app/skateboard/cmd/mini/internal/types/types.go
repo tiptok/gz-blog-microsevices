@@ -55,6 +55,54 @@ type CoachCreateRequest struct {
 type CoachCreateResponse struct {
 }
 
+type ShopGetRequest struct {
+	Id int `path:"id"`
+}
+
+type ShopGetResponse struct {
+	Shop ShopItem `json:"shop"`
+}
+
+type ShopSaveRequest struct {
+	Shop ShopItem `json:"shop"`
+}
+
+type ShopSaveResponse struct {
+}
+
+type ShopDeleteRequest struct {
+	Id int `path:"id"`
+}
+
+type ShopDeleteResponse struct {
+}
+
+type ShopUpdateRequest struct {
+	Id   int      `path:"id"`
+	Shop ShopItem `json:"shop"`
+}
+
+type ShopUpdateResponse struct {
+}
+
+type ShopSearchRequest struct {
+	Page int `json:"page"`
+	Size int `json:"size"`
+}
+
+type ShopSearchResponse struct {
+	List  []ShopItem `json:"list"`
+	Total int64      `json:"total"`
+}
+
+type ShopItem struct {
+	ShopId       int      `json:"shopId,omitempty,optional"`
+	Name         string   `json:"name,omitempty"`
+	Introduction string   `json:"introduction,omitempty"`
+	Rank         int      `json:"rank,omitempty"`
+	Address      *Address `json:"address,omitempty"`
+}
+
 type User struct {
 	UserId         int             `json:"userId,omitempty"`         // 用户ID
 	ClientType     string          `json:"clientType,omitempty"`     // 客户端类型 1:wx-stu 2:wx-coach
