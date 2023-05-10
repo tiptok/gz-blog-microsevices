@@ -2,7 +2,12 @@
 package types
 
 type LoginRequest struct {
-	Code string `json:"code"`
+	ClientType     string `json:"clientType"`
+	LoginType      string `json:"loginType"` // wx-login phone-password-login phone-smscode-login
+	WechatAuthCode string `json:"WechatAuthcode,optional"`
+	Phone          string `json:"phone,optional"`
+	Password       string `json:"password,optional"`
+	SmsCode        string `json:"smsCode,optonal"`
 }
 
 type LoginResponse struct {
@@ -26,29 +31,6 @@ type ShopListResponse struct {
 	Total int    `json:"total"`
 }
 
-type User struct {
-}
-
-type Shop struct {
-	ShopId       int     `json:"shopId"`
-	Name         string  `json:"name"`
-	Introduction string  `json:"introduction"`
-	Address      string  `json:"address"`
-	Lon          float64 `json:"lon"`
-	Lat          float64 `json:"lat"`
-	Rank         int     `json:"rank"`
-}
-
-type Coach struct {
-	CoachId         int      `json:"coachId"`
-	ShopId          int      `json:"shopId"`
-	Name            string   `json:"name"`
-	JobTitle        string   `json:"jobTitle"`
-	Labels          []string `json:"labels"`
-	TotalLessonTime int      `json:"totalLessonTime"`
-	Rank            int      `json:"rank"`
-}
-
 type CoachListRequest struct {
 	ShopId int `json:"shopId"`
 }
@@ -65,4 +47,71 @@ type CoachReserveRequest struct {
 }
 
 type CoachReserveResponse struct {
+}
+
+type CoachCreateRequest struct {
+}
+
+type CoachCreateResponse struct {
+}
+
+type User struct {
+	UserId         int             `json:"userId,omitempty"`         // 用户ID
+	ClientType     string          `json:"clientType,omitempty"`     // 客户端类型 1:wx-stu 2:wx-coach
+	Name           string          `json:"name,omitempty"`           // 名称
+	Avator         string          `json:"avator,omitempty"`         // 头像
+	Phone          string          `json:"phone,omitempty"`          // 手机号
+	WXNumber       string          `json:"wxNumber,omitempty"`       // 微信编号
+	Password       string          `json:"password,omitempty"`       // 密码 MD5()
+	WXOpenId       string          `json:"wxOpenId,omitempty"`       //微信认证 OpenID
+	UserCourseInfo *UserCourseInfo `json:"userCourseInfo,omitempty"` //
+}
+
+type UserCourseInfo struct {
+}
+
+type Shop struct {
+	ShopId       int      `json:"shopId,omitempty"`
+	Name         string   `json:"name,omitempty"`
+	Introduction string   `json:"introduction,omitempty"`
+	Address      Address  `json:"address"`
+	Rank         int      `json:"rank,omitempty"`
+	Context      *Context `json:"context,omitempty"`
+}
+
+type Coach struct {
+	CoachId         int      `json:"coachId,omitempty"`
+	UserId          int      `json:"userId,omitempty"`
+	ShopId          int      `json:"shopId,omitempty"`
+	Name            string   `json:"name,omitempty"`
+	JobTitle        string   `json:"jobTitle,omitempty"`
+	Labels          []string `json:"labels,omitempty"`
+	TotalLessonTime int      `json:"totalLessonTime,omitempty"`
+	Rank            int      `json:"rank,omitempty"`
+	Context         *Context `json:"context,omitempty"`
+	Shop            *Shop    `json:"shop,omitempty"`
+	User            *User    `json:"user,omitempty"`
+}
+
+type Activity struct {
+	ActivityId   int      `json:"activityId,omitempty"`
+	Cover        string   `json:"cover,omitempty"`
+	Title        string   `json:"title,omitempty"`
+	Time         string   `json:"time,omitempty"`
+	TimeUnix     int      `json:"timeUnix,omitempty"`
+	Introduction string   `json:"introduction,omitempty"`
+	Address      Address  `json:"address,omitempty"`
+	Link         string   `json:"link,omitempty"`
+	Context      *Context `json:"context,omitempty"`
+}
+
+type Address struct {
+	Address string  `json:"address,omitempty"`
+	Lon     float64 `json:"lon,omitempty"`
+	Lat     float64 `json:"lat,omitempty"`
+}
+
+type Context struct {
+	CreatorUserId int `json:"creatorUserId,omitempty"`
+	EditorUserId  int `json:"editorUserId,omitempty"`
 }

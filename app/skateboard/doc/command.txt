@@ -1,5 +1,5 @@
 1. api生成
-goctl api go -api .\doc\dsl\api\skateboard-mini.api -dir cmd/skateboard-mini
+goctl api go -api .\doc\dsl\api\skateboard-mini.api -dir cmd/mini
 
 2. 安装swagger插件
 go install github.com/zeromicro/goctl-swagger@latest

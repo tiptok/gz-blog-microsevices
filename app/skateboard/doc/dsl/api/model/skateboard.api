@@ -1,0 +1,69 @@
+syntax = "v1"
+
+info(
+    title: "约板"
+    desc: "约板服务"
+    author: "tiptok"
+    email: "785409885@qq.com"
+    version: "v1.0.0"
+)
+
+type(
+    User struct{
+        UserId int `json:"userId,omitempty"`         // 用户ID
+        ClientType string `json:"clientType,omitempty"`// 客户端类型 1:wx-stu 2:wx-coach
+        Name string `json:"name,omitempty"`			// 名称
+        Avator string `json:"avator,omitempty"`  	// 头像
+        Phone string `json:"phone,omitempty"`		// 手机号
+        WXNumber string `json:"wxNumber,omitempty"` // 微信编号
+        Password string `json:"password,omitempty"` // 密码 MD5()
+        WXOpenId string `json:"wxOpenId,omitempty"` //微信认证 OpenID
+
+        UserCourseInfo *UserCourseInfo `json:"userCourseInfo,omitempty"` //
+    }
+    UserCourseInfo struct{
+
+    }
+    Shop struct{
+        ShopId int  `json:"shopId,omitempty"`
+        Name string `json:"name,omitempty"`
+        Introduction string `json:"introduction,omitempty"`
+        Address Address `json:"address"`
+        Rank int 		`json:"rank,omitempty"`
+        Context *Context `json:"context,omitempty"`
+    }
+    Coach struct{
+        CoachId         int      `json:"coachId,omitempty"`
+        UserId 			int      `json:"userId,omitempty"`
+        ShopId          int      `json:"shopId,omitempty"`
+        Name            string   `json:"name,omitempty"`
+        JobTitle        string   `json:"jobTitle,omitempty"`
+        Labels          []string `json:"labels,omitempty"`
+        TotalLessonTime int      `json:"totalLessonTime,omitempty"`
+        Rank            int      `json:"rank,omitempty"`
+        Context *Context `json:"context,omitempty"`
+
+        Shop           *Shop     `json:"shop,omitempty"`
+        User 		   *User     `json:"user,omitempty"`
+    }
+    Activity struct{
+        ActivityId         int      `json:"activityId,omitempty"`
+        Cover string `json:"cover,omitempty"`
+        Title string  `json:"title,omitempty"`
+        Time string `json:"time,omitempty"`
+        TimeUnix int `json:"timeUnix,omitempty"`
+        Introduction string `json:"introduction,omitempty"`
+        Address Address `json:"address,omitempty"`
+        Link string `json:"link,omitempty"`
+        Context *Context `json:"context,omitempty"`
+    }
+    Address struct{
+        Address string `json:"address,omitempty"`
+        Lon float64 `json:"lon,omitempty"`
+        Lat float64 `json:"lat,omitempty"`
+    }
+    Context struct{
+        CreatorUserId int `json:"creatorUserId,omitempty"`
+        EditorUserId int `json:"editorUserId,omitempty"`
+    }
+)

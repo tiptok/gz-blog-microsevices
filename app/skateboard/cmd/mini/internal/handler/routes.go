@@ -15,30 +15,35 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodPost,
-				Path:    "/login",
+				Path:    "/mini/login",
 				Handler: skateboard.LoginHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/user-info",
+				Path:    "/mini/user-info",
 				Handler: skateboard.UserInfoHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/shop-list",
+				Path:    "/mini/shop-list",
 				Handler: skateboard.ShopListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/coach-list",
+				Path:    "/mini/coach-list",
 				Handler: skateboard.ShopCoachListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/coach-reserve",
+				Path:    "/mini/coach-reserve",
 				Handler: skateboard.CoachReserveHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/system/coach",
+				Handler: skateboard.CoachCreateHandler(serverCtx),
+			},
 		},
-		rest.WithPrefix("/skateboard/mini"),
+		rest.WithPrefix("/skateboard"),
 	)
 }
